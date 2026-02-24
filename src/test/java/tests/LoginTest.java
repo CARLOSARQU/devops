@@ -7,6 +7,9 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.WelcomePage;
 import pages.HomePage;
+import org.testng.annotations.DataProvider;
+import utils.JsonReader;
+import java.util.Map;
 
 public class LoginTest extends BaseTest {
     private WelcomePage welcomePage;
@@ -20,27 +23,25 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage(DriverManager.getDriver());
     }
 
-    @Test(description = "Login fallido con credenciales inválidas", priority = 1)
-    public void testLoginFallido() {
-        // Va al login saltando los permisos
-        LoginPage loginPage = welcomePage.irALogin();
-
-        // Ingresa datos falsos
-        loginPage.login("00000000", "000000");
-
-        // Valida que aparezca el modal
-        Assert.assertTrue(loginPage.isErrorModalDisplayed(), "Debe aparecer el modal de 'Datos incorrectos'");
-
-        // Cierra el modal
-        loginPage.cerrarModalError();
+    @DataProvider(name = "loginData")
+    public Object[][] getLoginData() {
+        return JsonReader.getTestData("src/test/resources/testdata/login_data.json");
     }
 
-    @Test(description = "Login exitoso")
-    public void testLoginExitoso() {
-        // La magia ocurre aquí: irALogin() maneja todos los permisos por ti y te devuelve la pantalla de login
-        HomePage home = welcomePage.irALogin()
-                .loginSuccessful("71313648", "140304");
+    @Test(dataProvider = "loginData", description = "Pruebas de Login Data-Driven")
+    public void testLogin(Map<String, String> data) {
+        System.out.println("Ejecutando Test: " + data.get("testCase"));
 
-        Assert.assertTrue(home.isHomePageDisplayed(), "Home no visible");
+        // Flujo común: Ir a login
+        loginPage = welcomePage.irALogin();
+
+        if (data.get("esperado").equals("exitoso")) {
+            HomePage home = loginPage.loginSuccessful(data.get("usuario"), data.get("clave"));
+            Assert.assertTrue(home.isHomePageDisplayed(), "Home no visible para " + data.get("usuario"));
+        } else {
+            loginPage.login(data.get("usuario"), data.get("clave"));
+            Assert.assertTrue(loginPage.isErrorModalDisplayed(), "Debe aparecer el modal de error para " + data.get("usuario"));
+            loginPage.cerrarModalError();
+        }
     }
 }

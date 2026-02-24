@@ -1,0 +1,14 @@
+[
+  {
+    "testCase": "Login Exitoso",
+    "usuario": "71313648",
+    "clave": "140304",
+    "esperado": "exitoso"
+  },
+  {
+    "testCase": "Credenciales Inválidas",
+    "usuario": "00000000",
+    "clave": "000000",
+    "esperado": "error_modal"
+  }
+]
