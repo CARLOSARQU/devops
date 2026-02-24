@@ -1,0 +1,13 @@
+target/
+bin/
+*.class
+.idea/
+*.iml
+.settings/
+.project/
+.classpath/
+screenshots/
+allure-results/
+allure-report/
+*.log
+local.properties
