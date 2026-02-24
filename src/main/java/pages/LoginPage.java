@@ -12,7 +12,7 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(xpath = "//android.widget.EditText[2]") 
     private WebElement passwordField;
 
-    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.View[3]/android.widget.Button")
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.Button\").instance(1)")
     private WebElement loginButtonFinal;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Datos incorrectos\"]")
@@ -33,8 +33,10 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public void clickLogin() { click(loginButtonFinal, "Boton Ingresar"); }
-
+    public void clickLogin() {
+        driver.hideKeyboard();
+        click(loginButtonFinal, "Boton Ingresar");
+    }
     public HomePage loginSuccessful(String dni, String password) {
         enterDNI(dni).enterPassword(password).clickLogin();
         return new HomePage(driver);
