@@ -5,11 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
-    @AndroidFindBy(className = "android.widget.Button")
 
-    private WebElement btnEntendido;
-
-    @AndroidFindBy(xpath = "//android.widget.EditText[1]") 
+    @AndroidFindBy(xpath = "//android.widget.EditText[1]")
     private WebElement dniField;
 
     @AndroidFindBy(xpath = "//android.widget.EditText[2]") 
@@ -22,15 +19,6 @@ public class LoginPage extends BasePage {
     private WebElement tituloErrorModal;
 
     public LoginPage(AndroidDriver driver) { super(driver); }
-
-    public LoginPage completarOnboarding() {
-        try {
-            click(btnEntendido, "Boton Entendido");
-        } catch (Exception e) {
-            System.out.println("No se encontró el modal de Onboarding, continuando...");
-        }
-        return this;
-    }
 
     public LoginPage enterDNI(String dni) {
         sendKeys(dniField, dni, "Campo DNI");
@@ -52,6 +40,4 @@ public class LoginPage extends BasePage {
     public boolean isErrorModalDisplayed() {
         try { wait.until(ExpectedConditions.visibilityOf(tituloErrorModal)); return true; } catch (Exception e) { return false; }
     }
-    
-    public void cerrarModalError() { try { click(btnEntendido, "Cerrar Error"); } catch (Exception e) {} }
 }

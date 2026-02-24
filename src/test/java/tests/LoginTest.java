@@ -20,11 +20,12 @@ public class LoginTest {
 
     @Test(description = "Login exitoso")
     public void testLoginExitoso() {
-        loginPage.completarOnboarding();
-        HomePage home = welcomePage.clickIniciarSesion().loginSuccessful("71313648", "140304");
+        // La magia ocurre aquí: irALogin() maneja todos los permisos por ti y te devuelve la pantalla de login
+        HomePage home = welcomePage.irALogin()
+                .loginSuccessful("71313648", "140304");
+
         Assert.assertTrue(home.isHomePageDisplayed(), "Home no visible");
     }
-
     @AfterMethod
     public void tearDown() {
         DriverManager.quitDriver();

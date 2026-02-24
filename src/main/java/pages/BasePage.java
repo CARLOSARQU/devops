@@ -23,6 +23,16 @@ public abstract class BasePage {
         element.click();
     }
 
+    protected void clickIfPresent(WebElement element, String elementName) {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            shortWait.until(ExpectedConditions.visibilityOf(element)).click();
+            System.out.println("Aceptado: " + elementName);
+        } catch (Exception e) {
+            System.out.println("Omitido (no apareció): " + elementName);
+        }
+    }
+
     protected void sendKeys(WebElement element, String text, String elementName) {
         System.out.println("Escribiendo '" + text + "' en: " + elementName);
         waitForVisibility(element);
