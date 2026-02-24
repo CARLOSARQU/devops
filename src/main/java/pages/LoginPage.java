@@ -15,7 +15,7 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.View[2]/android.widget.Button")
     private WebElement loginButtonFinal;
 
-    @AndroidFindBy(xpath = "//*[contains(@text, 'incorrectos')]")
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Datos incorrectos\"]")
     private WebElement tituloErrorModal;
 
     @AndroidFindBy(className = "android.widget.Button")
