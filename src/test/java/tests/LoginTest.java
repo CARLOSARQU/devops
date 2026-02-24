@@ -14,6 +14,7 @@ public class LoginTest {
 
     @BeforeMethod
     public void setUp() {
+        DriverManager.resetApp();
         welcomePage = new WelcomePage(DriverManager.getDriver());
         loginPage = new LoginPage(DriverManager.getDriver());
     }

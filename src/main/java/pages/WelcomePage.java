@@ -17,7 +17,7 @@ public class WelcomePage extends BasePage {
     private WebElement btnPermisoGeneral;
 
     // 4. El botón de Iniciar Sesión de la bienvenida (Usamos la estructura que viste en el inspector)
-    @AndroidFindBy(xpath = "(//android.widget.Button)[1]")
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.Button\").instance(0)")
     private WebElement btnIniciarSesionWelcome;
 
     public WelcomePage(AndroidDriver driver) { super(driver); }

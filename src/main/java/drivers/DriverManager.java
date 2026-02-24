@@ -30,6 +30,16 @@ public class DriverManager {
             throw new RuntimeException("URL de Appium inválida");
         }
     }
+
+    public static void resetApp() {
+        AndroidDriver currentDriver = getDriver();
+        String appPackage = ConfigReader.getProperty("app.package");
+        System.out.println("--- Reiniciando app: " + appPackage + " ---");
+        currentDriver.terminateApp(appPackage);
+        currentDriver.activateApp(appPackage);
+        System.out.println("--- App reiniciada correctamente ---");
+    }
+
     public static void quitDriver() {
         if (driver.get() != null) {
             driver.get().quit();
