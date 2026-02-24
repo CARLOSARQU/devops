@@ -3,14 +3,22 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import java.time.Duration;
 
 public class LoginPage extends BasePage {
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Entendido']") private WebElement btnEntendido;
-    @AndroidFindBy(xpath = "//android.widget.EditText[1]") private WebElement dniField;
-    @AndroidFindBy(xpath = "//android.widget.EditText[2]") private WebElement passwordField;
-    @AndroidFindBy(xpath = "//*[@text='Iniciar sesion' or @text='INICIAR SESION']") private WebElement loginButtonFinal;
-    @AndroidFindBy(xpath = "//*[@text='Datos incorrectos']") private WebElement tituloErrorModal;
+    @AndroidFindBy(xpath = "//*[contains(@text, 'Entendido') or contains(@text, 'ENTENDIDO')]") 
+    private WebElement btnEntendido;
+
+    @AndroidFindBy(xpath = "//android.widget.EditText[1]") 
+    private WebElement dniField;
+
+    @AndroidFindBy(xpath = "//android.widget.EditText[2]") 
+    private WebElement passwordField;
+
+    @AndroidFindBy(xpath = "//*[contains(@text, 'Iniciar') or contains(@text, 'INGRESAR')]") 
+    private WebElement loginButtonFinal;
+
+    @AndroidFindBy(xpath = "//*[contains(@text, 'incorrectos')]") 
+    private WebElement tituloErrorModal;
 
     public LoginPage(AndroidDriver driver) { super(driver); }
 
@@ -25,7 +33,7 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage enterPassword(String password) {
-        sendPassword(passwordField, password, "Campo Contrasena");
+        sendPassword(passwordField, password, "Campo Contraseña");
         return this;
     }
 
