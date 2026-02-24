@@ -5,7 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
-    @AndroidFindBy(xpath = "//*[contains(@text, 'Entendido') or contains(@text, 'ENTENDIDO')]") 
+    @AndroidFindBy(className = "android.widget.Button")
+
     private WebElement btnEntendido;
 
     @AndroidFindBy(xpath = "//android.widget.EditText[1]") 
@@ -14,16 +15,20 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(xpath = "//android.widget.EditText[2]") 
     private WebElement passwordField;
 
-    @AndroidFindBy(xpath = "//*[contains(@text, 'Iniciar') or contains(@text, 'INGRESAR')]") 
+    @AndroidFindBy(xpath = "//*[contains(@text, 'Iniciar') or contains(@text, 'INGRESAR')]")
     private WebElement loginButtonFinal;
 
-    @AndroidFindBy(xpath = "//*[contains(@text, 'incorrectos')]") 
+    @AndroidFindBy(xpath = "//*[contains(@text, 'incorrectos')]")
     private WebElement tituloErrorModal;
 
     public LoginPage(AndroidDriver driver) { super(driver); }
 
     public LoginPage completarOnboarding() {
-        try { click(btnEntendido, "Boton Entendido"); } catch (Exception e) {}
+        try {
+            click(btnEntendido, "Boton Entendido");
+        } catch (Exception e) {
+            System.out.println("No se encontró el modal de Onboarding, continuando...");
+        }
         return this;
     }
 
