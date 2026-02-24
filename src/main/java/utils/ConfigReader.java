@@ -5,15 +5,35 @@ import java.util.Properties;
 
 public class ConfigReader {
     private static Properties properties;
+    private static final String DEFAULT_ENV = "qa";
+
     static {
-        try {
-            properties = new Properties();
-            FileInputStream fis = new FileInputStream("src/test/resources/config.properties");
+        loadProperties();
+    }
+
+    private static void loadProperties() {
+        String env = System.getProperty("env", DEFAULT_ENV).toLowerCase();
+        String fileName = "src/test/resources/" + env + ".properties";
+        properties = new Properties();
+        try (FileInputStream fis = new FileInputStream(fileName)) {
             properties.load(fis);
+            System.out.println("--- Configuración cargada desde: " + fileName + " ---");
         } catch (IOException e) {
-            throw new RuntimeException("No se pudo cargar config.properties");
+            if (!env.equals(DEFAULT_ENV)) {
+                System.err.println("Archivo " + fileName + " no encontrado. Usando " + DEFAULT_ENV + " por defecto.");
+                String fallback = "src/test/resources/" + DEFAULT_ENV + ".properties";
+                try (FileInputStream fis = new FileInputStream(fallback)) {
+                    properties.load(fis);
+                    System.out.println("--- Configuración cargada desde: " + fallback + " ---");
+                } catch (IOException ex) {
+                    throw new RuntimeException("No se pudo cargar ningún archivo de propiedades.", ex);
+                }
+            } else {
+                throw new RuntimeException("No se pudo cargar ningún archivo de propiedades.", e);
+            }
         }
     }
+
     public static String getProperty(String key) {
         String systemProperty = System.getProperty(key);
         if (systemProperty != null && !systemProperty.isEmpty()) return systemProperty;

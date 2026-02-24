@@ -8,13 +8,14 @@ import pages.LoginPage;
 import pages.WelcomePage;
 import pages.HomePage;
 
-public class LoginTest {
+public class LoginTest extends BaseTest {
     private WelcomePage welcomePage;
     private LoginPage loginPage;
 
+    @Override
     @BeforeMethod
     public void setUp() {
-        DriverManager.resetApp();
+        super.setUp();
         welcomePage = new WelcomePage(DriverManager.getDriver());
         loginPage = new LoginPage(DriverManager.getDriver());
     }
@@ -41,9 +42,5 @@ public class LoginTest {
                 .loginSuccessful("71313648", "140304");
 
         Assert.assertTrue(home.isHomePageDisplayed(), "Home no visible");
-    }
-    @AfterMethod
-    public void tearDown() {
-        DriverManager.quitDriver();
     }
 }
