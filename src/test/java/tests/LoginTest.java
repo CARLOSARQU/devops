@@ -18,6 +18,21 @@ public class LoginTest {
         loginPage = new LoginPage(DriverManager.getDriver());
     }
 
+    @Test(description = "Login fallido con credenciales inválidas", priority = 1)
+    public void testLoginFallido() {
+        // Va al login saltando los permisos
+        LoginPage loginPage = welcomePage.irALogin();
+
+        // Ingresa datos falsos
+        loginPage.login("00000000", "000000");
+
+        // Valida que aparezca el modal
+        Assert.assertTrue(loginPage.isErrorModalDisplayed(), "Debe aparecer el modal de 'Datos incorrectos'");
+
+        // Cierra el modal
+        loginPage.cerrarModalError();
+    }
+
     @Test(description = "Login exitoso")
     public void testLoginExitoso() {
         // La magia ocurre aquí: irALogin() maneja todos los permisos por ti y te devuelve la pantalla de login

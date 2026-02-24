@@ -12,11 +12,14 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(xpath = "//android.widget.EditText[2]") 
     private WebElement passwordField;
 
-    @AndroidFindBy(xpath = "//*[contains(@text, 'Iniciar') or contains(@text, 'INGRESAR')]")
+    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.View[2]/android.widget.Button")
     private WebElement loginButtonFinal;
 
     @AndroidFindBy(xpath = "//*[contains(@text, 'incorrectos')]")
     private WebElement tituloErrorModal;
+
+    @AndroidFindBy(className = "android.widget.Button")
+    private WebElement btnEntendidoErrorModal;
 
     public LoginPage(AndroidDriver driver) { super(driver); }
 
@@ -37,7 +40,21 @@ public class LoginPage extends BasePage {
         return new HomePage(driver);
     }
 
+    public void login(String dni, String password) {
+        enterDNI(dni);
+        enterPassword(password);
+        clickLogin();
+    }
+
     public boolean isErrorModalDisplayed() {
-        try { wait.until(ExpectedConditions.visibilityOf(tituloErrorModal)); return true; } catch (Exception e) { return false; }
+        try {
+            wait.until(ExpectedConditions.visibilityOf(tituloErrorModal));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public void cerrarModalError() {
+        click(btnEntendidoErrorModal, "Cerrar Modal de Error");
     }
 }
