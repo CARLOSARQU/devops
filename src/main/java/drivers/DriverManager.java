@@ -34,10 +34,11 @@ public class DriverManager {
     public static void resetApp() {
         AndroidDriver currentDriver = getDriver();
         String appPackage = ConfigReader.getProperty("app.package");
-        System.out.println("--- Reiniciando app: " + appPackage + " ---");
+        System.out.println("--- Limpiando y reiniciando app: " + appPackage + " ---");
         currentDriver.terminateApp(appPackage);
+        currentDriver.executeScript("mobile: clearApp", java.util.Map.of("appId", appPackage));
         currentDriver.activateApp(appPackage);
-        System.out.println("--- App reiniciada correctamente ---");
+        System.out.println("--- App reiniciada desde cero ---");
     }
 
     public static void quitDriver() {
