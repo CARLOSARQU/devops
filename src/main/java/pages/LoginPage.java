@@ -12,7 +12,7 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(xpath = "//android.widget.EditText[2]") 
     private WebElement passwordField;
 
-    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.View[1]/android.widget.Button")
+    @AndroidFindBy(xpath = "//android.widget.ScrollView/android.view.View[3]/android.widget.Button")
     private WebElement loginButtonFinal;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Datos incorrectos\"]")
