@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.ITestResult;
+import pages.BasePage;
 
 public class BaseTest {
     protected static final Logger log = LogManager.getLogger(BaseTest.class);
