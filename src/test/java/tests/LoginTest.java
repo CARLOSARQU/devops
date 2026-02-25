@@ -12,6 +12,7 @@ import utils.JsonReader;
 import java.util.Map;
 
 public class LoginTest extends BaseTest {
+    private static final Logger log = LogManager.getLogger(LoginTest.class);
     private WelcomePage welcomePage;
     private LoginPage loginPage;
 
@@ -30,7 +31,9 @@ public class LoginTest extends BaseTest {
 
     @Test(dataProvider = "loginData", description = "Pruebas de Login Data-Driven")
     public void testLogin(Map<String, String> data) {
-        System.out.println("Ejecutando Test: " + data.get("testCase"));
+        log.info("--------------------------------------------------------");
+        log.info("EJECUTANDO TEST CASE: {}", data.get("testCase"));
+        log.info("--------------------------------------------------------");
 
         // Flujo común: Ir a login
         loginPage = welcomePage.irALogin();
@@ -38,10 +41,19 @@ public class LoginTest extends BaseTest {
         if (data.get("esperado").equals("exitoso")) {
             HomePage home = loginPage.loginSuccessful(data.get("usuario"), data.get("clave"));
             Assert.assertTrue(home.isHomePageDisplayed(), "Home no visible para " + data.get("usuario"));
-        } else {
+            log.info("RESULTADO: Login Exitoso confirmado.");
+        } else if (data.get("esperado").equals("boton_desactivado")) {
+            loginPage.enterDNI(data.get("usuario"));
+            loginPage.enterPassword(data.get("clave"));
+            Assert.assertFalse(loginPage.isLoginButtonEnabled(),
+                    "El botón debería estar desactivado para: " + data.get("testCase"));
+            log.info("RESULTADO: Validación de botón desactivado correcta.");
+        }
+        else {
             loginPage.login(data.get("usuario"), data.get("clave"));
             Assert.assertTrue(loginPage.isErrorModalDisplayed(), "Debe aparecer el modal de error para " + data.get("usuario"));
             loginPage.cerrarModalError();
+            log.info("RESULTADO: Validación de error por credenciales correcta.");
         }
     }
 }

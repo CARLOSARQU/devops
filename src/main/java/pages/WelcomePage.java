@@ -2,8 +2,13 @@ package pages;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WelcomePage extends BasePage {
+
+    private static final Logger log = LogManager.getLogger(WelcomePage.class);
+
     /// 1. El modal que vimos vacío
     @AndroidFindBy(className = "android.widget.Button")
     private WebElement btnEntendido;
@@ -24,7 +29,7 @@ public class WelcomePage extends BasePage {
 
     // Este método agrupa toda la barrera de permisos iniciales
     public WelcomePage gestionarOnboardingYPermisos() {
-        System.out.println("--- Iniciando gestión de Onboarding y Permisos ---");
+        log.info("--- Iniciando gestión de Onboarding y Permisos ---");
         clickIfPresent(btnEntendido, "Botón Entendido (Modal)");
         clickIfPresent(btnPermisoUbicacion, "Permiso Ubicación");
         clickIfPresent(btnPermisoGeneral, "Permiso Notificaciones");
@@ -35,6 +40,7 @@ public class WelcomePage extends BasePage {
     // Este método es el puente que te lleva a la página de Login Real
     public LoginPage irALogin() {
         gestionarOnboardingYPermisos();
+        log.info("Navegando hacia la pantalla de Login");
         click(btnIniciarSesionWelcome, "Botón Iniciar Sesión (Bienvenida)");
         return new LoginPage(driver);
     }

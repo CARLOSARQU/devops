@@ -10,5 +10,18 @@
     "usuario": "00000000",
     "clave": "000000",
     "esperado": "error_modal"
+  },
+  {
+    "testCase": "DNI vacío - botón desactivado",
+    "usuario": "",
+    "clave": "000000",
+    "esperado": "boton_desactivado"
+  },
+  {
+    "testCase": "Clave vacía - botón desactivado",
+    "usuario": "00000000",
+    "clave": "",
+    "esperado": "boton_desactivado"
   }
+
 ]

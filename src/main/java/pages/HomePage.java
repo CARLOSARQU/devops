@@ -1,12 +1,15 @@
 package pages;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class HomePage extends BasePage {
+    private static final Logger log = LogManager.getLogger(HomePage.class);
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Aviso importante']")
     private WebElement modalAvisoImportante;
@@ -23,19 +26,20 @@ public class HomePage extends BasePage {
     }
 
     private void gestionarModalAviso() {
-        System.out.println("--- Esperando posible modal 'Aviso importante' ---");
+        log.info("--- Verificando posible modal 'Aviso importante' ---");
         try {
             new WebDriverWait(driver, Duration.ofSeconds(25))
                     .until(ExpectedConditions.visibilityOf(modalAvisoImportante));
-            System.out.println("Modal 'Aviso importante' detectado. Cerrando...");
+            log.info("Modal 'Aviso importante' detectado. Procediendo a cerrar...");
             btnEntendidoModal.click();
-            System.out.println("Modal cerrado correctamente.");
+            log.info("Modal cerrado satisfactoriamente.");
         } catch (Exception e) {
-            System.out.println("Modal 'Aviso importante' no apareció, continuando...");
+            log.info("No se presentó el modal 'Aviso importante', el flujo continúa.");
         }
     }
 
     public boolean isHomePageDisplayed() {
+        log.info("Validando si la Home Page se muestra correctamente");
         return isDisplayed(txtMisProductos);
     }
 }
