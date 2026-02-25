@@ -18,7 +18,13 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            if (DriverManager.getDriver() != null) {
+                log.error("Test fallido: {} — guardando screenshot", result.getName());
+                BasePage.takeScreenshot(DriverManager.getDriver(), result.getName());
+            }
+        }
         log.info("[TEARDOWN] Cerrando Driver y liberando recursos");
         DriverManager.quitDriver();
     }

@@ -34,13 +34,11 @@
       <artifactId>commons-io</artifactId>
       <version>2.15.1</version>
     </dependency>
-    <!-- Jackson para JSON Data-Driven -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.16.1</version>
     </dependency>
-    <!-- Log4j 2.25.3 (Versión segura y actualizada) -->
     <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>

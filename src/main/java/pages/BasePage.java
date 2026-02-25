@@ -71,8 +71,13 @@ public abstract class BasePage {
         java.io.File source = ts.getScreenshotAs(org.openqa.selenium.OutputType.FILE);
         String destination = System.getProperty("user.dir") + "/screenshots/" + screenshotName + "_" + dateName + ".png";
         try {
-            org.apache.commons.io.FileUtils.copyFile(source, new java.io.File(destination));
-        } catch (java.io.IOException e) { e.printStackTrace(); }
+            java.io.File destFile = new java.io.File(destination);
+            destFile.getParentFile().mkdirs();
+            org.apache.commons.io.FileUtils.copyFile(source, destFile);
+            log.info("Screenshot guardado en: {}", destination);
+        } catch (java.io.IOException e) {
+            log.error("Error al guardar screenshot: {}", e.getMessage());
+        }
         return destination;
     }
 }
