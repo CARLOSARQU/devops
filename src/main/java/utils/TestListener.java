@@ -1,24 +1,25 @@
 package utils;
-import drivers.DriverManager;
-import org.testng.ITestContext;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import pages.BasePage;
-import io.qameta.allure.Attachment;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 
 public class TestListener implements ITestListener {
+    private static final Logger log = LogManager.getLogger(TestListener.class);
+
     @Override
     public void onTestFailure(ITestResult result) {
-        System.out.println("TEST FALLIDO: " + result.getName());
-        if (DriverManager.getDriver() != null) {
-            saveScreenshotPNG();
-            BasePage.takeScreenshot(DriverManager.getDriver(), result.getName());
-        }
+        log.error("TEST FALLIDO: {}", result.getName());
     }
-    @Attachment(value = "Page screenshot", type = "image/png")
-    public byte[] saveScreenshotPNG() {
-        return ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
+
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        log.info("TEST EXITOSO: {}", result.getName());
+    }
+
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        log.warn("TEST OMITIDO: {}", result.getName());
     }
 }
