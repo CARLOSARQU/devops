@@ -10,6 +10,9 @@ import pages.HomePage;
 import org.testng.annotations.DataProvider;
 import utils.JsonReader;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class LoginTest extends BaseTest {
     private static final Logger log = LogManager.getLogger(LoginTest.class);
