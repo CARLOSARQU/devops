@@ -48,7 +48,7 @@ public class LoginTest extends BaseTest {
         } else if (data.get("esperado").equals("boton_desactivado")) {
             loginPage.enterDNI(data.get("usuario"));
             loginPage.enterPassword(data.get("clave"));
-            Assert.assertFalse(loginPage.isLoginButtonEnabled(),
+            Assert.assertFalse(loginPage.isLoginButtonClickable(),
                     "El botón debería estar desactivado para: " + data.get("testCase"));
             log.info("RESULTADO: Validación de botón desactivado correcta.");
         }

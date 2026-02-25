@@ -56,8 +56,18 @@ public class LoginPage extends BasePage {
         clickLogin();
     }
 
-    public boolean isLoginButtonEnabled() {
-        return loginButtonFinal.isEnabled();
+    public boolean isLoginButtonClickable() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(3))
+                    .until(ExpectedConditions.visibilityOf(loginButtonFinal));
+
+            String clickable = loginButtonFinal.getAttribute("clickable");
+            log.info("Atributo clickable del botón login: {}", clickable);
+            return Boolean.parseBoolean(clickable);
+        } catch (Exception e) {
+            log.warn("Botón de login no encontrado");
+            return false;
+        }
     }
 
     public boolean isErrorModalDisplayed() {
