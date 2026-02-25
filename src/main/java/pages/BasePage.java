@@ -1,6 +1,8 @@
 package pages;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,6 +12,7 @@ import java.time.Duration;
 public abstract class BasePage {
     protected AndroidDriver driver;
     protected WebDriverWait wait;
+    protected static final Logger log = LogManager.getLogger(BasePage.class);
 
     public BasePage(AndroidDriver driver) {
         this.driver = driver;
@@ -18,7 +21,7 @@ public abstract class BasePage {
     }
 
     protected void click(WebElement element, String elementName) {
-        System.out.println("Haciendo clic en: " + elementName);
+        log.info("Haciendo clic en: {}", elementName);
         waitForVisibility(element);
         element.click();
     }
@@ -27,21 +30,21 @@ public abstract class BasePage {
         try {
             WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
             shortWait.until(ExpectedConditions.visibilityOf(element)).click();
-            System.out.println("Aceptado: " + elementName);
+            log.info("Aceptado: {}", elementName);
         } catch (Exception e) {
-            System.out.println("Omitido (no apareció): " + elementName);
+            log.info("Omitido (no apareció): {}", elementName);
         }
     }
 
     protected void sendKeys(WebElement element, String text, String elementName) {
-        System.out.println("Escribiendo '" + text + "' en: " + elementName);
+        log.info("Escribiendo '{}' en: {}", text, elementName);
         waitForVisibility(element);
         element.click();
         new org.openqa.selenium.interactions.Actions(driver).sendKeys(text).perform();
     }
 
     protected void sendPassword(WebElement element, String text, String elementName) {
-        System.out.println("Escribiendo '********' en: " + elementName);
+        log.info("Escribiendo '********' en: {}", elementName);
         waitForVisibility(element);
         element.click();
         new org.openqa.selenium.interactions.Actions(driver).sendKeys(text).perform();
@@ -52,7 +55,14 @@ public abstract class BasePage {
     }
 
     protected boolean isDisplayed(WebElement element) {
-        try { return element.isDisplayed(); } catch (Exception e) { return false; }
+        try { 
+            boolean displayed = element.isDisplayed();
+            if(!displayed) log.warn("Elemento no se muestra en pantalla");
+            return displayed;
+        } catch (Exception e) { 
+            log.error("Error al verificar visibilidad: {}", e.getMessage());
+            return false; 
+        }
     }
 
     public static String takeScreenshot(AndroidDriver driver, String screenshotName) {
