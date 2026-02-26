@@ -5,8 +5,12 @@ import utils.ConfigReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class DriverManager {
+    protected static final Logger log = LogManager.getLogger(DriverManager.class);
     private static ThreadLocal<AndroidDriver> driver = new ThreadLocal<>();
     public static AndroidDriver getDriver() {
         if (driver.get() == null) setupDriver();
@@ -34,12 +38,12 @@ public class DriverManager {
     public static void resetApp() {
         AndroidDriver currentDriver = getDriver();
         String appPackage = ConfigReader.getProperty("app.package");
-        System.out.println("--- Limpiando y reiniciando app: " + appPackage + " ---");
+        log.info("--- Limpiando y reiniciando app: " + appPackage + " ---");
         currentDriver.terminateApp(appPackage);
         currentDriver.executeScript("mobile: clearApp", java.util.Map.of("appId", appPackage));
         currentDriver.activateApp(appPackage);
-        try { Thread.sleep(4000); } catch (InterruptedException ignored) {}
-        System.out.println("--- App reiniciada desde cero ---");
+        try { Thread.sleep(8000); } catch (InterruptedException ignored) {}
+        log.info("--- App reiniciada desde cero ---");
     }
 
     public static void quitDriver() {
