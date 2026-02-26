@@ -28,7 +28,7 @@ public class HomePage extends BasePage {
     private void gestionarModalAviso() {
         log.info("--- Verificando posible modal 'Aviso importante' ---");
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(25))
+            new WebDriverWait(driver, Duration.ofSeconds(30))
                     .until(ExpectedConditions.visibilityOf(modalAvisoImportante));
             log.info("Modal 'Aviso importante' detectado. Procediendo a cerrar...");
             btnEntendidoModal.click();

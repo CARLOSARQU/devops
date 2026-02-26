@@ -42,7 +42,7 @@ public class DriverManager {
         currentDriver.terminateApp(appPackage);
         currentDriver.executeScript("mobile: clearApp", java.util.Map.of("appId", appPackage));
         currentDriver.activateApp(appPackage);
-        try { Thread.sleep(8000); } catch (InterruptedException ignored) {}
+        try { Thread.sleep(15000); } catch (InterruptedException ignored) {}
         log.info("--- App reiniciada desde cero ---");
     }
 
