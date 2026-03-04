@@ -11,13 +11,13 @@ import java.time.Duration;
 public class LoginPage extends BasePage {
     private static final Logger log = LogManager.getLogger(LoginPage.class);
 
-    @AndroidFindBy(accessibility = "login_dni_field")
+    @AndroidFindBy(id = "login_dni_field")
     private WebElement dniField;
 
-    @AndroidFindBy(accessibility = "login_password_field") 
+    @AndroidFindBy(id = "login_password_field")
     private WebElement passwordField;
 
-    @AndroidFindBy(accessibility = "login_button")
+    @AndroidFindBy(id = "login_button")
     private WebElement loginButtonFinal;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"Datos incorrectos\"]")
