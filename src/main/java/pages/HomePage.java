@@ -14,7 +14,7 @@ public class HomePage extends BasePage {
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Aviso importante']")
     private WebElement modalAvisoImportante;
 
-    @AndroidFindBy(xpath = "//android.widget.Button")
+    @AndroidFindBy(accessibility = "home_popup_understood_button")
     private WebElement btnEntendidoModal;
 
     @AndroidFindBy(xpath = "//android.widget.TextView[@text='Mis productos']")
