@@ -26,6 +26,7 @@ public class DriverManager {
                 .setNoReset(Boolean.parseBoolean(ConfigReader.getProperty("no.reset")))
                 .setAutoGrantPermissions(true)
                 .setNewCommandTimeout(Duration.ofSeconds(300));
+                .setDisableIdLocatorAutocompletion(true);
         try {
             AndroidDriver newDriver = new AndroidDriver(new URL(ConfigReader.getProperty("appium.url")), options);
             newDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
