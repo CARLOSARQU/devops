@@ -22,7 +22,7 @@ public class WelcomePage extends BasePage {
     private WebElement btnPermisoGeneral;
 
     // 4. El botón de Iniciar Sesión de la bienvenida
-    @AndroidFindBy(accessibility = "welcome_login_button")
+    @AndroidFindBy(id = "welcome_login_button")
     private WebElement btnIniciarSesionWelcome;
 
     public WelcomePage(AndroidDriver driver) { super(driver); }
