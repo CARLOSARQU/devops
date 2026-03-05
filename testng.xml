@@ -6,7 +6,17 @@
     </listeners>
     <test name='Login Tests'>
         <classes>
-            <class name='tests.LoginTest'/>
+            <class name='tests.login.LoginTest'/>
+        </classes>
+    </test>
+    <test name='Home Tests'>
+        <classes>
+            <class name='tests.home.HomeTest'/>
+        </classes>
+    </test>
+    <test name='Own Transfer Tests'>
+        <classes>
+            <class name='tests.transfers.OwnTransferTest'/>
         </classes>
     </test>
 </suite>

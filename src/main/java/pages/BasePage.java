@@ -1,4 +1,5 @@
 package pages;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.apache.logging.log4j.LogManager;
@@ -8,8 +9,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public abstract class BasePage {
     protected AndroidDriver driver;
@@ -54,6 +53,41 @@ public abstract class BasePage {
 
     protected void waitForVisibility(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    // Hace scroll hasta que el elemento con ese resourceId sea visible en pantalla.
+    // Necesario para elementos fuera del viewport en vistas con verticalScroll.
+    protected void scrollToElement(String resourceId) {
+        log.info("Scroll hacia elemento: {}", resourceId);
+        try {
+            driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiScrollable(new UiSelector().scrollable(true).instance(0))" +
+                ".setMaxSearchSwipes(10)" +
+                ".scrollIntoView(new UiSelector().resourceId(\"" + resourceId + "\"))"
+            ));
+        } catch (Exception e) {
+            log.warn("No se pudo hacer scroll hacia: {}", resourceId);
+        }
+    }
+
+    // Hace clic en un elemento buscándolo por su texto visible.
+    // Usar cuando el elemento no tiene testTag (ej: bottom nav, botones de librerías externas).
+    protected void clickByText(String text, String elementName) {
+        log.info("Haciendo clic en: {} (por texto '{}')", elementName, text);
+        WebElement el = new WebDriverWait(driver, Duration.ofSeconds(10))
+            .until(d -> d.findElement(AppiumBy.androidUIAutomator(
+                "new UiSelector().text(\"" + text + "\")"
+            )));
+        el.click();
+    }
+
+    // Espera y devuelve un elemento buscándolo por texto visible.
+    protected WebElement waitForText(String text, int timeoutSeconds) {
+        log.info("Esperando texto visible: '{}'", text);
+        return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
+            .until(d -> d.findElement(AppiumBy.androidUIAutomator(
+                "new UiSelector().text(\"" + text + "\")"
+            )));
     }
 
     protected boolean isDisplayed(WebElement element) {

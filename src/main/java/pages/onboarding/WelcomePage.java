@@ -1,33 +1,35 @@
-package pages;
+package pages.onboarding;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pages.BasePage;
+import pages.login.LoginPage;
 
 public class WelcomePage extends BasePage {
 
     private static final Logger log = LogManager.getLogger(WelcomePage.class);
 
-    /// 1. El modal que vimos vacío
+    // Modal genérico opcional (safety net para diálogos del sistema)
     @AndroidFindBy(className = "android.widget.Button")
     private WebElement btnEntendido;
 
-    // 2. Permiso Ubicación (Usa el ID nativo de Android)
+    // Permiso Ubicación (ID nativo de Android)
     @AndroidFindBy(id = "com.android.permissioncontroller:id/permission_allow_foreground_only_button")
     private WebElement btnPermisoUbicacion;
 
-    // 3. Permisos Generales (Notificaciones y SMS usan el mismo ID nativo)
+    // Permisos Generales: Notificaciones y SMS (ID nativo de Android)
     @AndroidFindBy(id = "com.android.permissioncontroller:id/permission_allow_button")
     private WebElement btnPermisoGeneral;
 
-    // 4. El botón de Iniciar Sesión de la bienvenida
-    @AndroidFindBy(id = "welcome_login_button")
+    // testTag: welcome_login_button
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"welcome_login_button\")")
     private WebElement btnIniciarSesionWelcome;
 
     public WelcomePage(AndroidDriver driver) { super(driver); }
 
-    // Este método agrupa toda la barrera de permisos iniciales
     public WelcomePage gestionarOnboardingYPermisos() {
         log.info("--- Iniciando gestión de Onboarding y Permisos ---");
         clickIfPresent(btnEntendido, "Botón Entendido (Modal)");
@@ -37,7 +39,6 @@ public class WelcomePage extends BasePage {
         return this;
     }
 
-    // Este método es el puente que te lleva a la página de Login Real
     public LoginPage irALogin() {
         gestionarOnboardingYPermisos();
         log.info("Navegando hacia la pantalla de Login");
