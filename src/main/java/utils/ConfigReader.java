@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 public class ConfigReader {
     protected static final Logger log = LogManager.getLogger(ConfigReader.class);
     private static Properties properties;
-    private static final String DEFAULT_ENV = "qa";
+    private static final String DEFAULT_ENV = "cert";
 
     static {
         loadProperties();
