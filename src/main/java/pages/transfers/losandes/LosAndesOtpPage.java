@@ -1,4 +1,4 @@
-package pages.transfers.thirdparty;
+package pages.transfers.losandes;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -10,16 +10,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 import java.time.Duration;
 
-public class ThirdPartyOtpPage extends BasePage {
+public class LosAndesOtpPage extends BasePage {
 
-    private static final Logger log = LogManager.getLogger(ThirdPartyOtpPage.class);
+    private static final Logger log = LogManager.getLogger(LosAndesOtpPage.class);
 
     // Dialog OTP del design system AAR — renderiza en ventana separada (Compose Dialog).
     // Sin testTags propios. Se localiza por texto del botón.
     @AndroidFindBy(uiAutomator = "new UiSelector().text(\"Enviar\")")
     private WebElement btnEnviar;
 
-    public ThirdPartyOtpPage(AndroidDriver driver) { super(driver); }
+    public LosAndesOtpPage(AndroidDriver driver) { super(driver); }
 
     public boolean isLoaded() {
         log.info("Esperando que aparezca el dialog OTP (max 15 seg)");
@@ -33,9 +33,9 @@ public class ThirdPartyOtpPage extends BasePage {
         }
     }
 
-    public ThirdPartyTransferReceiptPage clickEnviar() {
+    public LosAndesTransferReceiptPage clickEnviar() {
         log.info("Haciendo clic en Enviar (OTP auto-completado por SMS)");
         click(btnEnviar, "Botón Enviar OTP");
-        return new ThirdPartyTransferReceiptPage(driver);
+        return new LosAndesTransferReceiptPage(driver);
     }
 }

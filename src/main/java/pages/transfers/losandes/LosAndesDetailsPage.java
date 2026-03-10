@@ -1,4 +1,4 @@
-package pages.transfers.thirdparty;
+package pages.transfers.losandes;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -10,9 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 import java.time.Duration;
 
-public class ThirdPartyDetailsPage extends BasePage {
+public class LosAndesDetailsPage extends BasePage {
 
-    private static final Logger log = LogManager.getLogger(ThirdPartyDetailsPage.class);
+    private static final Logger log = LogManager.getLogger(LosAndesDetailsPage.class);
 
     // testTag: third_party_amount_field
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_amount_field\")")
@@ -22,7 +22,7 @@ public class ThirdPartyDetailsPage extends BasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_details_continue_button\")")
     private WebElement btnContinue;
 
-    public ThirdPartyDetailsPage(AndroidDriver driver) { super(driver); }
+    public LosAndesDetailsPage(AndroidDriver driver) { super(driver); }
 
     public boolean isLoaded() {
         log.info("Verificando que la pantalla de detalles cargó (max 15 seg — espera respuesta API)");
@@ -36,7 +36,7 @@ public class ThirdPartyDetailsPage extends BasePage {
         }
     }
 
-    public ThirdPartyTransferSummaryPage enterAmountAndContinue(String amount) {
+    public LosAndesTransferSummaryPage enterAmountAndContinue(String amount) {
         log.info("Ingresando monto: {}", amount);
         try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
         sendKeys(amountField, amount, "Campo Monto");
@@ -44,6 +44,6 @@ public class ThirdPartyDetailsPage extends BasePage {
         try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
         scrollToElement("third_party_details_continue_button");
         click(btnContinue, "Botón Continuar (Detalles)");
-        return new ThirdPartyTransferSummaryPage(driver);
+        return new LosAndesTransferSummaryPage(driver);
     }
 }

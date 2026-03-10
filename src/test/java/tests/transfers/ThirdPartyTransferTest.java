@@ -11,11 +11,11 @@ import pages.login.LoginPage;
 import pages.onboarding.WelcomePage;
 import pages.operations.OperationMenuPage;
 import pages.operations.TransferMenuPage;
-import pages.transfers.thirdparty.ThirdPartyAccountEntryPage;
-import pages.transfers.thirdparty.ThirdPartyDetailsPage;
-import pages.transfers.thirdparty.ThirdPartyOtpPage;
-import pages.transfers.thirdparty.ThirdPartyTransferReceiptPage;
-import pages.transfers.thirdparty.ThirdPartyTransferSummaryPage;
+import pages.transfers.losandes.LosAndesAccountEntryPage;
+import pages.transfers.losandes.LosAndesDetailsPage;
+import pages.transfers.losandes.LosAndesOtpPage;
+import pages.transfers.losandes.LosAndesTransferReceiptPage;
+import pages.transfers.losandes.LosAndesTransferSummaryPage;
 import tests.BaseTest;
 import utils.ConfigReader;
 
@@ -50,27 +50,27 @@ public class ThirdPartyTransferTest extends BaseTest {
         TransferMenuPage transferMenu = operationMenu.clickTransferencias();
 
         // 3. Seleccionar A otras cuentas Los Andes
-        ThirdPartyAccountEntryPage accountEntryPage = transferMenu.clickOtrasCuentasAndes();
+        LosAndesAccountEntryPage accountEntryPage = transferMenu.clickOtrasCuentasAndes();
 
         // 4. Verificar pantalla de ingreso de cuenta e ingresar número
         Assert.assertTrue(accountEntryPage.isLoaded(),
                 "La pantalla de ingreso de cuenta no cargó");
-        ThirdPartyDetailsPage detailsPage = accountEntryPage.enterAccountNumberAndContinue(destinationAccount);
+        LosAndesDetailsPage detailsPage = accountEntryPage.enterAccountNumberAndContinue(destinationAccount);
 
         // 5. Verificar pantalla de detalles (espera API) e ingresar monto
         Assert.assertTrue(detailsPage.isLoaded(),
                 "La pantalla de detalles no cargó después de ingresar la cuenta");
-        ThirdPartyTransferSummaryPage summaryPage = detailsPage.enterAmountAndContinue("100");
+        LosAndesTransferSummaryPage summaryPage = detailsPage.enterAmountAndContinue("100");
 
         // 6. Verificar pantalla de resumen (espera API) y confirmar
         Assert.assertTrue(summaryPage.isLoaded(),
                 "La pantalla de resumen no cargó");
-        ThirdPartyOtpPage otpPage = summaryPage.clickContinue();
+        LosAndesOtpPage otpPage = summaryPage.clickContinue();
 
         // 7. Esperar dialog OTP (código llega por SMS y se autocompleta) y enviar
         Assert.assertTrue(otpPage.isLoaded(),
                 "El dialog OTP no apareció");
-        ThirdPartyTransferReceiptPage receiptPage = otpPage.clickEnviar();
+        LosAndesTransferReceiptPage receiptPage = otpPage.clickEnviar();
 
         // 8. Verificar comprobante de transferencia exitosa
         Assert.assertTrue(receiptPage.isTransferenciaExitosa(),

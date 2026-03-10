@@ -6,8 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
-import pages.transfers.own.OwnTransferPage;
-import pages.transfers.thirdparty.ThirdPartyAccountEntryPage;
+import pages.transfers.own.OwnTransferDetailsPage;
+import pages.transfers.losandes.LosAndesAccountEntryPage;
 
 public class TransferMenuPage extends BasePage {
 
@@ -23,15 +23,15 @@ public class TransferMenuPage extends BasePage {
 
     public TransferMenuPage(AndroidDriver driver) { super(driver); }
 
-    public OwnTransferPage clickEntreMisCuentas() {
+    public OwnTransferDetailsPage clickEntreMisCuentas() {
         log.info("Seleccionando opción: Entre mis cuentas");
         click(btnEntreMisCuentas, "Botón Entre mis cuentas");
-        return new OwnTransferPage(driver);
+        return new OwnTransferDetailsPage(driver);
     }
 
-    public ThirdPartyAccountEntryPage clickOtrasCuentasAndes() {
+    public LosAndesAccountEntryPage clickOtrasCuentasAndes() {
         log.info("Seleccionando opción: A otras cuentas Los Andes");
         click(btnOtrasCuentasAndes, "Botón Otras cuentas Los Andes");
-        return new ThirdPartyAccountEntryPage(driver);
+        return new LosAndesAccountEntryPage(driver);
     }
 }

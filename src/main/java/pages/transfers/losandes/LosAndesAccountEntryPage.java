@@ -1,4 +1,4 @@
-package pages.transfers.thirdparty;
+package pages.transfers.losandes;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -10,9 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 import java.time.Duration;
 
-public class ThirdPartyAccountEntryPage extends BasePage {
+public class LosAndesAccountEntryPage extends BasePage {
 
-    private static final Logger log = LogManager.getLogger(ThirdPartyAccountEntryPage.class);
+    private static final Logger log = LogManager.getLogger(LosAndesAccountEntryPage.class);
 
     // testTag: third_party_account_number_field
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_account_number_field\")")
@@ -22,7 +22,7 @@ public class ThirdPartyAccountEntryPage extends BasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_account_entry_continue_button\")")
     private WebElement btnContinue;
 
-    public ThirdPartyAccountEntryPage(AndroidDriver driver) { super(driver); }
+    public LosAndesAccountEntryPage(AndroidDriver driver) { super(driver); }
 
     public boolean isLoaded() {
         log.info("Verificando que la pantalla de ingreso de cuenta cargó");
@@ -36,11 +36,11 @@ public class ThirdPartyAccountEntryPage extends BasePage {
         }
     }
 
-    public ThirdPartyDetailsPage enterAccountNumberAndContinue(String accountNumber) {
+    public LosAndesDetailsPage enterAccountNumberAndContinue(String accountNumber) {
         log.info("Ingresando número de cuenta destino: {}", accountNumber);
         sendKeys(accountNumberField, accountNumber, "Campo Número de Cuenta");
         driver.hideKeyboard();
         click(btnContinue, "Botón Continuar (Ingreso de Cuenta)");
-        return new ThirdPartyDetailsPage(driver);
+        return new LosAndesDetailsPage(driver);
     }
 }
