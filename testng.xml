@@ -19,4 +19,9 @@
             <class name='tests.transfers.OwnTransferTest'/>
         </classes>
     </test>
+    <test name='Third Party Transfer Tests'>
+        <classes>
+            <class name='tests.transfers.ThirdPartyTransferTest'/>
+        </classes>
+    </test>
 </suite>

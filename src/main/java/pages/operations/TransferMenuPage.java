@@ -7,14 +7,19 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
 import pages.transfers.own.OwnTransferPage;
+import pages.transfers.thirdparty.ThirdPartyTransferPage;
 
 public class TransferMenuPage extends BasePage {
 
     private static final Logger log = LogManager.getLogger(TransferMenuPage.class);
 
-    // testTag: menu_transfer_entre_mis_cuentas (Box wrapper en MenuTransferScreen.kt)
+    // testTag: menu_transfer_entre_mis_cuentas
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"menu_transfer_entre_mis_cuentas\")")
     private WebElement btnEntreMisCuentas;
+
+    // testTag: menu_transfer_otras_cuentas_andes
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"menu_transfer_otras_cuentas_andes\")")
+    private WebElement btnOtrasCuentasAndes;
 
     public TransferMenuPage(AndroidDriver driver) { super(driver); }
 
@@ -22,5 +27,11 @@ public class TransferMenuPage extends BasePage {
         log.info("Seleccionando opción: Entre mis cuentas");
         click(btnEntreMisCuentas, "Botón Entre mis cuentas");
         return new OwnTransferPage(driver);
+    }
+
+    public ThirdPartyTransferPage clickOtrasCuentasAndes() {
+        log.info("Seleccionando opción: A otras cuentas Los Andes");
+        click(btnOtrasCuentasAndes, "Botón Otras cuentas Los Andes");
+        return new ThirdPartyTransferPage(driver);
     }
 }
