@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 import java.time.Duration;
-
+import io.appium.java_client.AppiumBy;
 public class CreditMenuPage extends BasePage {
 
     private static final Logger log = LogManager.getLogger(CreditMenuPage.class);
@@ -34,7 +34,21 @@ public class CreditMenuPage extends BasePage {
 
     public AccountSelectionPage clickPagarCuota() {
         log.info("Seleccionando opción 'Pago de cuota'");
-        click(btnPagarCuota, "Botón Pago de Cuota");
+
+        // 1. Esperamos a que sea clickeable (esto es clave en Compose)
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(btnPagarCuota));
+
+        // 2. Usamos tu método de la BasePage
+        try {
+            click(btnPagarCuota, "Botón Pago de Cuota");
+        } catch (Exception e) {
+            log.warn("El clic en el ID falló, reintentando clic en el texto del elemento...");
+            // Respaldo rápido: clic directo al texto si el contenedor bloquea el evento
+            WebElement txtFallback = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().text(\"Pago de cuota\")"));
+            click(txtFallback, "Texto Pago de Cuota (Fallback)");
+        }
+
         return new AccountSelectionPage(driver);
     }
 }
