@@ -24,4 +24,9 @@
             <class name='tests.transfers.ThirdPartyTransferTest'/>
         </classes>
     </test>
+    <test name='Credit Payment Tests'>
+        <classes>
+            <class name='tests.credit.CreditPaymentTest'/>
+        </classes>
+    </test>
 </suite>

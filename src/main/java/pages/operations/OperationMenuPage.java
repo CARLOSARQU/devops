@@ -26,4 +26,10 @@ public class OperationMenuPage extends BasePage {
         click(btnTransferencias, "Botón Transferencias");
         return new TransferMenuPage(driver);
     }
+
+    public PayCreditMenuPage clickPagarCredito() {
+        log.info("Seleccionando opción: Pagar Crédito");
+        click(btnPagarCredito, "Botón Pagar Crédito");
+        return new PayCreditMenuPage(driver);
+    }
 }

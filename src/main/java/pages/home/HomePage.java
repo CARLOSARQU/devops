@@ -96,6 +96,12 @@ public class HomePage extends BasePage {
         return isDisplayed(btnShortcutPagarCuota);
     }
 
+    public void clickShortcutPagarCredito() {
+        log.info("Haciendo scroll y click en shortcut Pagar Crédito");
+        scrollToElement("home_shortcut_pay_credit");
+        click(btnShortcutPagarCuota, "Shortcut Pagar Crédito");
+    }
+
     public boolean isShortcutAbrirCuentaDigitalVisible() {
         scrollToElement("home_shortcut_open_digital_account");
         return isDisplayed(btnShortcutAbrirCuentaDigital);

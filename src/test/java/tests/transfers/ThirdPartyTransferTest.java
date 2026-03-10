@@ -11,8 +11,11 @@ import pages.login.LoginPage;
 import pages.onboarding.WelcomePage;
 import pages.operations.OperationMenuPage;
 import pages.operations.TransferMenuPage;
-import pages.transfers.thirdparty.ThirdPartyTransferPage;
+import pages.transfers.thirdparty.ThirdPartyAccountEntryPage;
+import pages.transfers.thirdparty.ThirdPartyDetailsPage;
+import pages.transfers.thirdparty.ThirdPartyOtpPage;
 import pages.transfers.thirdparty.ThirdPartyTransferReceiptPage;
+import pages.transfers.thirdparty.ThirdPartyTransferSummaryPage;
 import tests.BaseTest;
 import utils.ConfigReader;
 
@@ -47,39 +50,30 @@ public class ThirdPartyTransferTest extends BaseTest {
         TransferMenuPage transferMenu = operationMenu.clickTransferencias();
 
         // 3. Seleccionar A otras cuentas Los Andes
-        ThirdPartyTransferPage transferPage = transferMenu.clickOtrasCuentasAndes();
+        ThirdPartyAccountEntryPage accountEntryPage = transferMenu.clickOtrasCuentasAndes();
 
-        // 4. Verificar que cargó la pantalla de ingreso de cuenta (Paso 1)
-        Assert.assertTrue(transferPage.isAccountEntryScreenLoaded(),
+        // 4. Verificar pantalla de ingreso de cuenta e ingresar número
+        Assert.assertTrue(accountEntryPage.isLoaded(),
                 "La pantalla de ingreso de cuenta no cargó");
+        ThirdPartyDetailsPage detailsPage = accountEntryPage.enterAccountNumberAndContinue(destinationAccount);
 
-        // 5. Ingresar número de cuenta destino y continuar
-        transferPage.enterAccountNumber(destinationAccount)
-                    .clickAccountEntryContinue();
-
-        // 6. Verificar que cargó la pantalla de detalles (Paso 2 — espera API)
-        Assert.assertTrue(transferPage.isDetailsScreenLoaded(),
+        // 5. Verificar pantalla de detalles (espera API) e ingresar monto
+        Assert.assertTrue(detailsPage.isLoaded(),
                 "La pantalla de detalles no cargó después de ingresar la cuenta");
+        ThirdPartyTransferSummaryPage summaryPage = detailsPage.enterAmountAndContinue("100");
 
-        // 7. Ingresar monto — "100" equivale a S/ 1.00
-        transferPage.enterAmount("100")
-                    .clickDetailsContinue();
-
-        // 8. Verificar que cargó la pantalla de resumen (Paso 3 — espera API)
-        Assert.assertTrue(transferPage.isSummaryScreenLoaded(),
+        // 6. Verificar pantalla de resumen (espera API) y confirmar
+        Assert.assertTrue(summaryPage.isLoaded(),
                 "La pantalla de resumen no cargó");
+        ThirdPartyOtpPage otpPage = summaryPage.clickContinue();
 
-        // 9. Confirmar — dispara envío del OTP por SMS
-        transferPage.clickSummaryContinue();
-
-        // 10. Esperar dialog OTP (código llega por SMS y se autocompleta)
-        Assert.assertTrue(transferPage.isOtpDialogLoaded(),
+        // 7. Esperar dialog OTP (código llega por SMS y se autocompleta) y enviar
+        Assert.assertTrue(otpPage.isLoaded(),
                 "El dialog OTP no apareció");
+        ThirdPartyTransferReceiptPage receiptPage = otpPage.clickEnviar();
 
-        // 11. Enviar OTP y verificar comprobante
-        ThirdPartyTransferReceiptPage receipt = transferPage.clickOtpEnviar();
-
-        Assert.assertTrue(receipt.isTransferenciaExitosa(),
+        // 8. Verificar comprobante de transferencia exitosa
+        Assert.assertTrue(receiptPage.isTransferenciaExitosa(),
                 "El comprobante de transferencia exitosa no apareció");
 
         log.info("RESULTADO: Transferencia a otras cuentas Los Andes completada correctamente.");

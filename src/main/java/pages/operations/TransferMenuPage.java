@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
 import pages.transfers.own.OwnTransferPage;
-import pages.transfers.thirdparty.ThirdPartyTransferPage;
+import pages.transfers.thirdparty.ThirdPartyAccountEntryPage;
 
 public class TransferMenuPage extends BasePage {
 
@@ -29,9 +29,9 @@ public class TransferMenuPage extends BasePage {
         return new OwnTransferPage(driver);
     }
 
-    public ThirdPartyTransferPage clickOtrasCuentasAndes() {
+    public ThirdPartyAccountEntryPage clickOtrasCuentasAndes() {
         log.info("Seleccionando opción: A otras cuentas Los Andes");
         click(btnOtrasCuentasAndes, "Botón Otras cuentas Los Andes");
-        return new ThirdPartyTransferPage(driver);
+        return new ThirdPartyAccountEntryPage(driver);
     }
 }
