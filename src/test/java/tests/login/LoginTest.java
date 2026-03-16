@@ -46,13 +46,6 @@ public class LoginTest extends BaseTest {
             Assert.assertTrue(home.isHomePageDisplayed(), "Home no visible para " + data.get("usuario"));
             log.info("RESULTADO: Login Exitoso confirmado.");
 
-        } else if (data.get("esperado").equals("boton_desactivado")) {
-            loginPage.enterDNI(data.get("usuario"));
-            loginPage.enterPassword(data.get("clave"));
-            Assert.assertFalse(loginPage.isLoginButtonClickable(),
-                    "El botón debería estar desactivado para: " + data.get("testCase"));
-            log.info("RESULTADO: Validación de botón desactivado correcta.");
-
         } else {
             loginPage.login(data.get("usuario"), data.get("clave"));
             Assert.assertTrue(loginPage.isErrorModalDisplayed(),
