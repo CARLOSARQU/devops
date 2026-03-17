@@ -22,10 +22,15 @@ public class DriverManager {
     private static ThreadLocal<AppiumDriverLocalService> appiumService = new ThreadLocal<>();
 
     public static AndroidDriver getDriver() {
-        if (driver.get() == null) {
-            setupDriver();
-        }
         return driver.get();
+    }
+
+    public static void initDriver() {
+        if (driver.get() == null) {
+            log.info("Creando sesión del driver...");
+            setupDriver();
+            log.info("Sesión del driver lista.");
+        }
     }
 
     public static void startAppiumServer() {
