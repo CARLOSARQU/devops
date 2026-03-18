@@ -9,6 +9,10 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import pages.BasePage;
+import pages.home.HomePage;
+import pages.login.LoginPage;
+import pages.onboarding.WelcomePage;
+import utils.ConfigReader;
 
 public class BaseTest {
     protected static final Logger log = LogManager.getLogger(BaseTest.class);
@@ -44,6 +48,14 @@ public class BaseTest {
         log.info("--------------------------------------------------------");
         DriverManager.resetApp();
         log.info("[SETUP] App lista.");
+    }
+
+    protected HomePage loginAndGoHome() {
+        String dni      = ConfigReader.getProperty("test.dni");
+        String password = ConfigReader.getProperty("test.password");
+        WelcomePage welcomePage = new WelcomePage(DriverManager.getDriver());
+        LoginPage loginPage     = welcomePage.irALogin();
+        return loginPage.loginSuccessful(dni, password);
     }
 
     @AfterMethod

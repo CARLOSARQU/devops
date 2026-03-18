@@ -12,12 +12,9 @@ import pages.credit.CreditPaymentReceiptPage;
 import pages.credit.CreditPaymentSummaryPage;
 import pages.credit.CreditSelectionPage;
 import pages.home.HomePage;
-import pages.login.LoginPage;
-import pages.onboarding.WelcomePage;
 import pages.operations.OperationMenuPage;
 import pages.operations.PayCreditMenuPage;
 import tests.BaseTest;
-import utils.ConfigReader;
 
 public class CreditPaymentTest extends BaseTest {
 
@@ -28,12 +25,7 @@ public class CreditPaymentTest extends BaseTest {
     @BeforeMethod
     public void setUp() {
         super.setUp();
-        String dni      = ConfigReader.getProperty("test.dni");
-        String password = ConfigReader.getProperty("test.password");
-
-        WelcomePage welcomePage = new WelcomePage(DriverManager.getDriver());
-        LoginPage loginPage     = welcomePage.irALogin();
-        homePage                = loginPage.loginSuccessful(dni, password);
+        homePage = loginAndGoHome();
     }
 
     @Test(description = "Pago total de cuota de crédito vía Operaciones")

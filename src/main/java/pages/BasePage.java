@@ -39,13 +39,15 @@ public abstract class BasePage {
 
     protected void sendKeys(WebElement element, String text, String elementName) {
         log.info("Escribiendo '{}' en: {}", text, elementName);
-        waitForVisibility(element);
-        element.click();
-        new org.openqa.selenium.interactions.Actions(driver).sendKeys(text).perform();
+        typeIntoField(element, text);
     }
 
     protected void sendPassword(WebElement element, String text, String elementName) {
         log.info("Escribiendo '********' en: {}", elementName);
+        typeIntoField(element, text);
+    }
+
+    private void typeIntoField(WebElement element, String text) {
         waitForVisibility(element);
         element.click();
         new org.openqa.selenium.interactions.Actions(driver).sendKeys(text).perform();
@@ -105,7 +107,7 @@ public abstract class BasePage {
         String dateName = new java.text.SimpleDateFormat("yyyyMMddhhmmss").format(new java.util.Date());
         org.openqa.selenium.TakesScreenshot ts = (org.openqa.selenium.TakesScreenshot) driver;
         java.io.File source = ts.getScreenshotAs(org.openqa.selenium.OutputType.FILE);
-        String destination = System.getProperty("user.dir") + "/screenshots/" + screenshotName + "_" + dateName + ".png";
+        String destination = System.getProperty("user.dir") + "/target/screenshots/" + screenshotName + "_" + dateName + ".png";
         try {
             java.io.File destFile = new java.io.File(destination);
             destFile.getParentFile().mkdirs();

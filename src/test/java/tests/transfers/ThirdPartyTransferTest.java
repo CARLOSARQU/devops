@@ -7,8 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.home.HomePage;
-import pages.login.LoginPage;
-import pages.onboarding.WelcomePage;
 import pages.operations.OperationMenuPage;
 import pages.operations.TransferMenuPage;
 import pages.transfers.losandes.LosAndesAccountEntryPage;
@@ -28,12 +26,7 @@ public class ThirdPartyTransferTest extends BaseTest {
     @BeforeMethod
     public void setUp() {
         super.setUp();
-        String dni      = ConfigReader.getProperty("test.dni");
-        String password = ConfigReader.getProperty("test.password");
-
-        WelcomePage welcomePage = new WelcomePage(DriverManager.getDriver());
-        LoginPage loginPage     = welcomePage.irALogin();
-        homePage                = loginPage.loginSuccessful(dni, password);
+        homePage = loginAndGoHome();
     }
 
     @Test(description = "Transferencia a otras cuentas Los Andes por S/ 1.00")

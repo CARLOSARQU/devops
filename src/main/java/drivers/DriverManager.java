@@ -4,12 +4,13 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import utils.ConfigReader;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import java.io.File;
+import utils.ConfigReader;
 
+import java.io.File;
 import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +19,13 @@ public class DriverManager {
     protected static final Logger log = LogManager.getLogger(DriverManager.class);
 
     private static ThreadLocal<AndroidDriver> driver = new ThreadLocal<>();
-    // NUEVO: Variable para controlar el servidor de Appium por cada hilo
     private static ThreadLocal<AppiumDriverLocalService> appiumService = new ThreadLocal<>();
+
+    private static final String BROWSERSTACK_URL = "https://hub-cloud.browserstack.com/wd/hub";
+
+    public static boolean isBrowserStack() {
+        return "browserstack".equalsIgnoreCase(ConfigReader.getProperty("execution.mode"));
+    }
 
     public static AndroidDriver getDriver() {
         return driver.get();
@@ -28,35 +34,40 @@ public class DriverManager {
     public static void initDriver() {
         if (driver.get() == null) {
             log.info("Creando sesión del driver...");
-            setupDriver();
+            if (isBrowserStack()) {
+                setupBrowserStackDriver();
+            } else {
+                setupLocalDriver();
+            }
             log.info("Sesión del driver lista.");
         }
     }
 
     public static void startAppiumServer() {
-        log.info("Iniciando servidor Appium internamente...");
+        if (isBrowserStack()) {
+            log.info("[BrowserStack] Servidor Appium no requerido — usando servidor remoto de BrowserStack.");
+            return;
+        }
 
-        // Creamos la ruta donde se guardará el log (en la carpeta target que se limpia con Maven)
+        log.info("Iniciando servidor Appium internamente...");
         File appiumLogFile = new File("target/appium-server.log");
 
         AppiumDriverLocalService service = new AppiumServiceBuilder()
                 .usingAnyFreePort()
-                // 1. Le decimos que solo imprima errores graves en la consola (silencia la "basura")
                 .withArgument(GeneralServerFlag.LOG_LEVEL, "error")
-                // 2. Le decimos que guarde TODO el detalle en un archivo de texto
                 .withLogFile(appiumLogFile)
                 .build();
 
         service.start();
         appiumService.set(service);
-        log.info("Servidor Appium corriendo silenciosamente en: " + service.getUrl());
-        log.info("Los logs de Appium se están guardando en: " + appiumLogFile.getAbsolutePath());
+        log.info("Servidor Appium corriendo en: " + service.getUrl());
+        log.info("Logs de Appium guardados en: " + appiumLogFile.getAbsolutePath());
     }
 
-    private static void setupDriver() {
+    private static void setupLocalDriver() {
         String platformName = System.getProperty("platform.name", ConfigReader.getProperty("platform.name"));
-        String deviceName = System.getProperty("device.name", ConfigReader.getProperty("device.name"));
-        String apkPath = System.getProperty("app.apk.path");
+        String deviceName   = System.getProperty("device.name",   ConfigReader.getProperty("device.name"));
+        String apkPath      = System.getProperty("app.apk.path");
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .setPlatformName(platformName)
@@ -81,7 +92,41 @@ public class DriverManager {
             newDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
             driver.set(newDriver);
         } catch (Exception e) {
-            throw new RuntimeException("Error conectando con Appium: " + e.getMessage());
+            throw new RuntimeException("Error conectando con Appium local: " + e.getMessage());
+        }
+    }
+
+    private static void setupBrowserStackDriver() {
+        log.info("[BrowserStack] Conectando con dispositivo remoto...");
+
+        String username  = ConfigReader.getProperty("browserstack.username");
+        String accessKey = ConfigReader.getProperty("browserstack.access.key");
+        String appUrl    = ConfigReader.getProperty("browserstack.app.url");
+        String device    = ConfigReader.getProperty("browserstack.device");
+        String osVersion = ConfigReader.getProperty("browserstack.os.version");
+
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setApp(appUrl);
+        options.setAutoGrantPermissions(true);
+        options.setNewCommandTimeout(Duration.ofSeconds(300));
+
+        HashMap<String, Object> bstackOptions = new HashMap<>();
+        bstackOptions.put("userName",    username);
+        bstackOptions.put("accessKey",   accessKey);
+        bstackOptions.put("deviceName",  device);
+        bstackOptions.put("osVersion",   osVersion);
+        bstackOptions.put("projectName", "Los Andes QA");
+        bstackOptions.put("buildName",   "QA Automation Build");
+        bstackOptions.put("sessionName", "Automated Test Session");
+        options.setCapability("bstack:options", bstackOptions);
+
+        try {
+            AndroidDriver newDriver = new AndroidDriver(new URL(BROWSERSTACK_URL), options);
+            newDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+            driver.set(newDriver);
+            log.info("[BrowserStack] Conectado. Dispositivo: {} Android {}", device, osVersion);
+        } catch (Exception e) {
+            throw new RuntimeException("Error conectando con BrowserStack: " + e.getMessage());
         }
     }
 
@@ -108,6 +153,10 @@ public class DriverManager {
     }
 
     public static void stopAppiumServer() {
+        if (isBrowserStack()) {
+            log.info("[BrowserStack] No hay servidor local que apagar.");
+            return;
+        }
         if (appiumService.get() != null) {
             log.info("Apagando servidor Appium...");
             appiumService.get().stop();

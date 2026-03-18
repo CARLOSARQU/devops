@@ -1,16 +1,12 @@
 package tests.home;
 
-import drivers.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.home.HomePage;
-import pages.login.LoginPage;
-import pages.onboarding.WelcomePage;
 import tests.BaseTest;
-import utils.ConfigReader;
 
 public class HomeTest extends BaseTest {
 
@@ -21,12 +17,7 @@ public class HomeTest extends BaseTest {
     @BeforeMethod
     public void setUp() {
         super.setUp();
-        String dni      = ConfigReader.getProperty("test.dni");
-        String password = ConfigReader.getProperty("test.password");
-
-        WelcomePage welcomePage = new WelcomePage(DriverManager.getDriver());
-        LoginPage loginPage     = welcomePage.irALogin();
-        homePage                = loginPage.loginSuccessful(dni, password);
+        homePage = loginAndGoHome();
     }
 
     @Test(description = "La pantalla Home carga correctamente tras un login exitoso")

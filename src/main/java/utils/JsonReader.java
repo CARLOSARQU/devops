@@ -9,8 +9,9 @@ import java.util.Map;
 
 public class JsonReader {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     public static Object[][] getTestData(String JSON_PATH) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             List<Map<String, String>> data = mapper.readValue(
                     new File(JSON_PATH),
