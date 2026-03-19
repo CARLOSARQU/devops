@@ -22,10 +22,11 @@
 
 ## Paso a paso
 
-### Paso 1 — Actualizar el sistema
+### Paso 1 — Actualizar el sistema e instalar dependencias base
 
 ```bash
-sudo apt update && sudo apt upgrade -y
+apt update && apt upgrade -y
+apt install -y curl wget unzip
 ```
 
 ---
@@ -35,7 +36,7 @@ sudo apt update && sudo apt upgrade -y
 **Descarga:** https://git-scm.com/downloads/linux
 
 ```bash
-sudo apt install git -y
+apt install git -y
 
 # Verificar
 git --version
@@ -49,7 +50,7 @@ git --version
 **Descarga:** https://adoptium.net/temurin/releases/?version=21
 
 ```bash
-sudo apt install openjdk-21-jdk -y
+apt install openjdk-21-jdk -y
 
 # Verificar
 java -version
@@ -71,7 +72,7 @@ source ~/.bashrc
 **Descarga:** https://maven.apache.org/download.cgi
 
 ```bash
-sudo apt install maven -y
+apt install maven -y
 
 # Verificar
 mvn -version
@@ -85,11 +86,11 @@ mvn -version
 **Descarga:** https://nodejs.org/en/download
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
-sudo apt install nodejs -y
+curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
+apt install nodejs -y
 
 # Verificar
-node -version
+node --version
 # v24.x.x
 
 npm -version
@@ -103,7 +104,7 @@ npm -version
 **Documentación:** https://appium.io/docs/en/latest/quickstart/install/
 
 ```bash
-sudo npm install -g appium@3.2.0
+npm install -g appium@3.2.0
 
 # Verificar
 appium -v
@@ -135,7 +136,7 @@ appium driver list --installed
 wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip -O /tmp/platform-tools.zip
 
 # Descomprimir
-sudo unzip /tmp/platform-tools.zip -d /opt/android-sdk
+unzip /tmp/platform-tools.zip -d /opt/android-sdk
 rm /tmp/platform-tools.zip
 
 # Configurar variables de entorno
@@ -173,16 +174,28 @@ adb devices
 # ACXYVB4702000775   device
 ```
 
-### Paso 10A — Clonar el repositorio y ejecutar
+### Paso 10A — Clonar el repositorio y configurar
 
 ```bash
 git clone <URL-del-repositorio-qa-automation>
 cd qa-automation
+```
 
+Abrir el archivo `src/test/resources/cert.properties` y completar los siguientes valores:
+
+```properties
 # Reemplazar con el serial que devolvió "adb devices"
-mvn test \
-  -Dsurefire.suiteXmlFiles=testng.xml \
-  -Ddevice.name=ACXYVB4702000775
+device.name=SERIAL_DEL_CELULAR
+
+# Credenciales de la cuenta de pruebas de la app
+test.dni=DNI_DE_PRUEBA
+test.password=CLAVE_DE_PRUEBA
+```
+
+### Paso 11A — Ejecutar los tests
+
+```bash
+mvn test -Dsurefire.suiteXmlFiles=testng.xml
 ```
 
 ---
@@ -206,14 +219,14 @@ mvn test \
 
 ```bash
 # Crear carpeta para las herramientas
-sudo mkdir -p /opt/android-sdk/cmdline-tools
+mkdir -p /opt/android-sdk/cmdline-tools
 
 # Descargar cmdline-tools
 wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O /tmp/cmdline-tools.zip
 
 # Descomprimir
-sudo unzip /tmp/cmdline-tools.zip -d /opt/android-sdk/cmdline-tools
-sudo mv /opt/android-sdk/cmdline-tools/cmdline-tools /opt/android-sdk/cmdline-tools/latest
+unzip /tmp/cmdline-tools.zip -d /opt/android-sdk/cmdline-tools
+mv /opt/android-sdk/cmdline-tools/cmdline-tools /opt/android-sdk/cmdline-tools/latest
 rm /tmp/cmdline-tools.zip
 
 # Agregar al PATH
@@ -266,15 +279,28 @@ adb devices
 # emulator-5554   device
 ```
 
-### Paso 13B — Clonar el repositorio y ejecutar
+### Paso 13B — Clonar el repositorio y configurar
 
 ```bash
 git clone <URL-del-repositorio-qa-automation>
 cd qa-automation
+```
 
-mvn test \
-  -Dsurefire.suiteXmlFiles=testng.xml \
-  -Ddevice.name=emulator-5554
+Abrir el archivo `src/test/resources/cert.properties` y completar:
+
+```properties
+# Para emulador el device.name siempre es este valor
+device.name=emulator-5554
+
+# Credenciales de la cuenta de pruebas de la app
+test.dni=DNI_DE_PRUEBA
+test.password=CLAVE_DE_PRUEBA
+```
+
+### Paso 14B — Ejecutar los tests
+
+```bash
+mvn test -Dsurefire.suiteXmlFiles=testng.xml
 ```
 
 ---
@@ -305,6 +331,58 @@ adb devices            # serial del celular o emulator  ✅
 | Velocidad                  | Real                        | Depende del hardware del host   |
 | Tests con Keynua           | ✅ Compatibles              | ❌ No compatibles               |
 | Recomendado para           | Tests completos end-to-end  | Tests sin biometría / CI-CD     |
+
+---
+
+## Capturas de pantalla en caso de error
+
+Cuando un test falla, el framework guarda automáticamente una captura de pantalla del dispositivo en ese momento.
+
+**Ubicación de las capturas:**
+```
+qa-automation/
+└── target/
+    └── screenshots/
+          └── NombreDelTest_20260318143022.png
+```
+
+### Acceso según el entorno
+
+**Ejecución local (PC directa):**
+```bash
+# Las capturas quedan en la carpeta target/ del proyecto
+ls target/screenshots/
+```
+
+**Ejecución en Jenkins:**
+
+Las capturas se archivan automáticamente en Jenkins y se pueden ver desde la interfaz web:
+```
+Jenkins → Pipeline → Build #X → Artifacts → target/screenshots/
+```
+
+Esto funciona gracias a esta configuración en el pipeline:
+```groovy
+post {
+    always {
+        archiveArtifacts artifacts: 'target/screenshots/**/*.png',
+                         allowEmptyArchive: true
+    }
+}
+```
+
+**Ejecución en Docker:**
+
+Dentro del contenedor las capturas quedan en `target/screenshots/`, pero al apagarse el contenedor se pierden. Para conservarlas hay que montar una carpeta del host al correr el contenedor:
+
+```bash
+docker run \
+  --device /dev/kvm \
+  -v /ruta/local/screenshots:/qa-automation/target/screenshots \
+  losandes-qa-automation
+```
+
+Así las capturas quedan guardadas en la PC aunque el contenedor se apague.
 
 ---
 
