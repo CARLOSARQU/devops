@@ -13,7 +13,7 @@ public class WelcomePage extends BasePage {
     private static final Logger log = LogManager.getLogger(WelcomePage.class);
 
     // Modal genérico opcional (safety net para diálogos del sistema)
-    @AndroidFindBy(className = "android.widget.Button")
+    @AndroidFindBy(uiAutomator = "new UiSelector().text(\"Entendido\")")
     private WebElement btnEntendido;
 
     // Permiso Ubicación (ID nativo de Android)

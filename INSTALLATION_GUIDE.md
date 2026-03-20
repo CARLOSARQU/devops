@@ -15,8 +15,9 @@
 | 6 | Appium UiAutomator2          | 7.0.0          | Driver para dispositivos Android             |
 | 7 | Android SDK platform-tools   | 36.0.2 (ADB)   | Comunicación entre la PC y el dispositivo    |
 | 8 | Android SDK cmdline-tools    | latest         | Solo si se usa emulador                      |
-| 9 | Android Emulator             | latest         | Solo si se usa emulador                      |
-| 10| Android System Image API 33  | Android 13     | Solo si se usa emulador                      |
+| 9 | Android Build Tools          | 33.0.0         | Requerido para instalar APKs (aapt2)         |
+| 10| Android Emulator             | latest         | Solo si se usa emulador                      |
+| 11| Android System Image API 33  | Android 13     | Solo si se usa emulador                      |
 
 ---
 
@@ -153,7 +154,30 @@ adb version
 
 ## Opción A — Dispositivo físico (celular por USB)
 
-### Paso 9A — Configurar el celular Android
+### Paso 9A — Instalar Android Build Tools
+
+Requerido para que Appium pueda leer e instalar el APK en el dispositivo.
+
+```bash
+# Instalar cmdline-tools primero (para usar sdkmanager)
+mkdir -p /opt/android-sdk/cmdline-tools
+wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O /tmp/cmdline-tools.zip
+unzip /tmp/cmdline-tools.zip -d /opt/android-sdk/cmdline-tools
+mv /opt/android-sdk/cmdline-tools/cmdline-tools /opt/android-sdk/cmdline-tools/latest
+rm /tmp/cmdline-tools.zip
+
+echo 'export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# Instalar build-tools
+yes | sdkmanager --licenses
+sdkmanager "build-tools;33.0.0"
+
+# Verificar
+ls /opt/android-sdk/build-tools/33.0.0/aapt2
+```
+
+### Paso 10A — Configurar el celular Android
 
 En el dispositivo físico:
 
@@ -244,7 +268,7 @@ sdkmanager --version
 yes | sdkmanager --licenses
 
 # Instalar emulador y sistema operativo Android 13 (API 33)
-sdkmanager "emulator" "platforms;android-33" "system-images;android-33;google_apis;x86_64"
+sdkmanager "emulator" "platforms;android-33" "build-tools;33.0.0" "system-images;android-33;google_apis;x86_64"
 
 # Verificar
 sdkmanager --list_installed

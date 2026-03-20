@@ -27,6 +27,10 @@ public class DriverManager {
         return "browserstack".equalsIgnoreCase(ConfigReader.getProperty("execution.mode"));
     }
 
+    public static boolean isDeviceFarm() {
+        return System.getenv("DEVICEFARM_DEVICE_UDID") != null;
+    }
+
     public static AndroidDriver getDriver() {
         return driver.get();
     }
@@ -36,6 +40,8 @@ public class DriverManager {
             log.info("Creando sesión del driver...");
             if (isBrowserStack()) {
                 setupBrowserStackDriver();
+            } else if (isDeviceFarm()) {
+                setupDeviceFarmDriver();
             } else {
                 setupLocalDriver();
             }
@@ -46,6 +52,10 @@ public class DriverManager {
     public static void startAppiumServer() {
         if (isBrowserStack()) {
             log.info("[BrowserStack] Servidor Appium no requerido — usando servidor remoto de BrowserStack.");
+            return;
+        }
+        if (isDeviceFarm()) {
+            log.info("[DeviceFarm] Servidor Appium no requerido — Device Farm lo gestiona automáticamente.");
             return;
         }
 
@@ -93,6 +103,29 @@ public class DriverManager {
             driver.set(newDriver);
         } catch (Exception e) {
             throw new RuntimeException("Error conectando con Appium local: " + e.getMessage());
+        }
+    }
+
+    private static void setupDeviceFarmDriver() {
+        log.info("[DeviceFarm] Conectando al servidor Appium local de Device Farm...");
+        String basePath = System.getenv("APPIUM_BASE_PATH") != null ? System.getenv("APPIUM_BASE_PATH") : "";
+
+        // Device Farm inyecta todas las capabilities vía --default-capabilities al arrancar Appium.
+        // No se deben setear: app, deviceName, platformName, udid, platformVersion.
+        UiAutomator2Options options = new UiAutomator2Options()
+                .setNoReset(false)
+                .setAutoGrantPermissions(true)
+                .setNewCommandTimeout(Duration.ofSeconds(300));
+
+        try {
+            URL deviceFarmUrl = new URL("http://0.0.0.0:4723" + basePath);
+            AndroidDriver newDriver = new AndroidDriver(deviceFarmUrl, options);
+            newDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+            driver.set(newDriver);
+            log.info("[DeviceFarm] Conectado. Dispositivo: {} ({})",
+                System.getenv("DEVICEFARM_DEVICE_NAME"), System.getenv("DEVICEFARM_DEVICE_UDID"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error conectando con Device Farm: " + e.getMessage());
         }
     }
 
@@ -153,8 +186,8 @@ public class DriverManager {
     }
 
     public static void stopAppiumServer() {
-        if (isBrowserStack()) {
-            log.info("[BrowserStack] No hay servidor local que apagar.");
+        if (isBrowserStack() || isDeviceFarm()) {
+            log.info("[{}] No hay servidor local que apagar.", isDeviceFarm() ? "DeviceFarm" : "BrowserStack");
             return;
         }
         if (appiumService.get() != null) {
