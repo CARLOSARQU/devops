@@ -1,9 +1,9 @@
 package steps;
 
 import drivers.DriverManager;
-import io.cucumber.java.es.Cuando;
-import io.cucumber.java.es.Dado;
-import io.cucumber.java.es.Y;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.And;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pages.home.HomePage;
@@ -17,12 +17,12 @@ public class CommonSteps {
     private static final Logger log = LogManager.getLogger(CommonSteps.class);
     private final ScenarioContext context = ScenarioContext.getInstance();
 
-    @Dado("estoy en la pantalla de bienvenida")
+    @Given("estoy en la pantalla de bienvenida")
     public void estoyEnLaPantallaDeBienvenida() {
         log.info("Paso: estoy en la pantalla de bienvenida");
     }
 
-    @Dado("el usuario ha iniciado sesión")
+    @Given("el usuario ha iniciado sesión")
     public void elUsuarioHaIniciadoSesion() {
         if (ScenarioContext.isLoggedIn()) {
             log.info("Paso: sesión activa — reutilizando. Inicializando HomePage.");
@@ -39,14 +39,14 @@ public class CommonSteps {
         log.info("Usuario autenticado correctamente.");
     }
 
-    @Cuando("navego a Operaciones")
+    @When("navego a Operaciones")
     public void navegoAOperaciones() {
         log.info("Paso: navego a Operaciones");
         context.homePage.irAOperaciones();
         context.operationMenu = new OperationMenuPage(DriverManager.getDriver());
     }
 
-    @Y("selecciono Transferencias")
+    @And("selecciono Transferencias")
     public void seleccionoTransferencias() {
         log.info("Paso: selecciono Transferencias");
         context.transferMenu = context.operationMenu.clickTransferencias();

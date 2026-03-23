@@ -11,3 +11,4 @@ allure-results/
 allure-report/
 *.log
 local.properties
+.claude/

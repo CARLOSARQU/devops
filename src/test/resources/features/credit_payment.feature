@@ -1,21 +1,20 @@
-# language: es
 @regression @credit_payment
-Característica: Pago de cuota de crédito
+Feature: Pago de cuota de crédito
 
-  Antecedentes:
-    Dado el usuario ha iniciado sesión
+  Background:
+    Given el usuario ha iniciado sesión
 
-  Escenario: Pago total de cuota de crédito
-    Cuando navego a Operaciones
-    Y selecciono Pagar Crédito
-    Entonces la pantalla de selección de crédito a pagar carga
-    Cuando selecciono Paga un crédito propio
-    Entonces los créditos cargan correctamente
-    Cuando selecciono el primer crédito
-    Entonces el menú del crédito carga
-    Cuando selecciono Pago de cuota
-    Entonces la pantalla de pago de cuota carga
-    Cuando confirmo el detalle de pago
-    Entonces la pantalla de detalles de pago carga
-    Cuando realizo el pago de la cuota
-    Entonces el comprobante de pago exitoso aparece
+  Scenario: Pago total de cuota de crédito
+    When navego a Operaciones
+    And selecciono Pagar Crédito
+    Then la pantalla de selección de crédito a pagar carga
+    When selecciono Paga un crédito propio
+    Then los créditos cargan correctamente
+    When selecciono el primer crédito
+    Then el menú del crédito carga
+    When selecciono Pago de cuota
+    Then la pantalla de pago de cuota carga
+    When confirmo el detalle de pago
+    Then la pantalla de detalles de pago carga
+    When realizo el pago de la cuota
+    Then el comprobante de pago exitoso aparece

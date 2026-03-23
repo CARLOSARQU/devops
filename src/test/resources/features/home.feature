@@ -1,19 +1,18 @@
-# language: es
 @regression
-Característica: Pantalla Home de la aplicación Los Andes
+Feature: Pantalla Home de la aplicación Los Andes
 
-  Antecedentes:
-    Dado el usuario ha iniciado sesión
+  Background:
+    Given el usuario ha iniciado sesión
 
   @login_mainframe
-  Escenario: La pantalla Home carga correctamente
-    Entonces la sección Mis productos es visible
+  Scenario: La pantalla Home carga correctamente
+    Then la sección Mis productos es visible
 
   @smoke
-  Escenario: Los accesos rápidos están visibles
-    Entonces los shortcuts de Transferir, Transferencia Celular, Pagar Cuota y Abrir Cuenta Digital son visibles
+  Scenario: Los accesos rápidos están visibles
+    Then los shortcuts de Transferir, Transferencia Celular, Pagar Cuota y Abrir Cuenta Digital son visibles
 
   @smoke
-  Escenario: El toggle de saldo alterna sin romper la pantalla
-    Cuando alterno el toggle de saldo
-    Entonces la pantalla Home sigue mostrándose correctamente
+  Scenario: El toggle de saldo alterna sin romper la pantalla
+    When alterno el toggle de saldo
+    Then la pantalla Home sigue mostrándose correctamente

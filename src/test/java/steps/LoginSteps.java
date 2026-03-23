@@ -1,8 +1,9 @@
 package steps;
 
 import drivers.DriverManager;
-import io.cucumber.java.es.Cuando;
-import io.cucumber.java.es.Entonces;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -14,7 +15,7 @@ public class LoginSteps {
     private static final Logger log = LogManager.getLogger(LoginSteps.class);
     private LoginPage loginPage;
 
-    @Cuando("ingreso el usuario {string} y la clave {string}")
+    @When("ingreso el usuario {string} y la clave {string}")
     public void ingresoElUsuarioYLaClave(String usuario, String clave) {
         log.info("Paso: ingreso usuario {} y clave ********", usuario);
         WelcomePage welcomePage = new WelcomePage(DriverManager.getDriver());
@@ -22,7 +23,7 @@ public class LoginSteps {
         loginPage.login(usuario, clave);
     }
 
-    @Entonces("el resultado debería ser {string}")
+    @Then("el resultado debería ser {string}")
     public void elResultadoDeberiaSerExitoso(String esperado) {
         if (esperado.equals("exitoso")) {
             log.info("Paso: verificando login exitoso");

@@ -1,7 +1,7 @@
 package steps;
 
-import io.cucumber.java.es.Cuando;
-import io.cucumber.java.es.Entonces;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -10,7 +10,7 @@ public class HomeSteps {
     private static final Logger log = LogManager.getLogger(HomeSteps.class);
     private final ScenarioContext context = ScenarioContext.getInstance();
 
-    @Entonces("la sección Mis productos es visible")
+    @Then("la sección Mis productos es visible")
     public void laSectionMisProductosEsVisible() {
         log.info("Paso: verificando que la sección Mis productos es visible");
         Assert.assertTrue(context.homePage.isHomePageDisplayed(),
@@ -18,7 +18,7 @@ public class HomeSteps {
         log.info("RESULTADO: Home Page verificada correctamente.");
     }
 
-    @Entonces("los shortcuts de Transferir, Transferencia Celular, Pagar Cuota y Abrir Cuenta Digital son visibles")
+    @Then("los shortcuts de Transferir, Transferencia Celular, Pagar Cuota y Abrir Cuenta Digital son visibles")
     public void losShortcutsSonVisibles() {
         log.info("Paso: verificando shortcuts visibles");
         Assert.assertTrue(context.homePage.isShortcutTransferirVisible(),          "Shortcut 'Transferir' no visible");
@@ -28,13 +28,13 @@ public class HomeSteps {
         log.info("RESULTADO: Todos los shortcuts verificados correctamente.");
     }
 
-    @Cuando("alterno el toggle de saldo")
+    @When("alterno el toggle de saldo")
     public void alternoElToggleDeSaldo() {
         log.info("Paso: alternando toggle de saldo");
         context.homePage.clickToggleBalance();
     }
 
-    @Entonces("la pantalla Home sigue mostrándose correctamente")
+    @Then("la pantalla Home sigue mostrándose correctamente")
     public void laPantallaHomeSigueMostrandose() {
         log.info("Paso: verificando que Home sigue mostrándose");
         Assert.assertTrue(context.homePage.isHomePageDisplayed(),
