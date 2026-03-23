@@ -6,6 +6,7 @@ import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Y;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pages.home.HomePage;
 import pages.login.LoginPage;
 import pages.onboarding.WelcomePage;
 import pages.operations.OperationMenuPage;
@@ -23,12 +24,18 @@ public class CommonSteps {
 
     @Dado("el usuario ha iniciado sesión")
     public void elUsuarioHaIniciadoSesion() {
+        if (ScenarioContext.isLoggedIn()) {
+            log.info("Paso: sesión activa — reutilizando. Inicializando HomePage.");
+            context.homePage = new HomePage(DriverManager.getDriver());
+            return;
+        }
         log.info("Paso: el usuario ha iniciado sesión");
         String dni      = ConfigReader.getProperty("test.dni");
         String password = ConfigReader.getProperty("test.password");
         WelcomePage welcomePage = new WelcomePage(DriverManager.getDriver());
         LoginPage loginPage     = welcomePage.irALogin();
         context.homePage = loginPage.loginSuccessful(dni, password);
+        ScenarioContext.setLoggedIn(true);
         log.info("Usuario autenticado correctamente.");
     }
 

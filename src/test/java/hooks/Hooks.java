@@ -39,13 +39,24 @@ public class Hooks {
     }
 
     @Before
-    public void setUp() {
-        log.info("--------------------------------------------------------");
-        log.info("[SETUP] Reseteando App para nuevo Escenario...");
+    public void setUp(Scenario scenario) {
         log.info("--------------------------------------------------------");
         ScenarioContext.reset();
-        DriverManager.resetApp();
+        boolean requiresFreshStart = scenario.getSourceTagNames().contains("@login_test");
+        if (!ScenarioContext.isLoggedIn() || requiresFreshStart) {
+            if (requiresFreshStart) {
+                log.info("[SETUP] Escenario de login — reinicio completo forzado.");
+                ScenarioContext.setLoggedIn(false);
+            } else {
+                log.info("[SETUP] Sin sesión activa — reinicio completo de la app.");
+            }
+            DriverManager.resetApp();
+        } else {
+            log.info("[SETUP] Sesión activa — reiniciando app sin borrar datos.");
+            DriverManager.restartApp();
+        }
         log.info("[SETUP] App lista.");
+        log.info("--------------------------------------------------------");
     }
 
     @After
@@ -55,6 +66,8 @@ public class Hooks {
             if (DriverManager.getDriver() != null) {
                 BasePage.takeScreenshot(DriverManager.getDriver(), scenario.getName().replaceAll("[^a-zA-Z0-9]", "_"));
             }
+            log.warn("[TEARDOWN] Marcando sesión como inválida — próximo escenario arrancará desde cero.");
+            ScenarioContext.setLoggedIn(false);
         } else {
             log.info("[TEARDOWN] Escenario '{}' finalizado correctamente.", scenario.getName());
         }

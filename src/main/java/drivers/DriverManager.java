@@ -108,17 +108,26 @@ public class DriverManager {
 
     private static void setupDeviceFarmDriver() {
         log.info("[DeviceFarm] Conectando al servidor Appium local de Device Farm...");
-        String basePath = System.getenv("APPIUM_BASE_PATH") != null ? System.getenv("APPIUM_BASE_PATH") : "";
 
-        // Device Farm inyecta todas las capabilities vía --default-capabilities al arrancar Appium.
-        // No se deben setear: app, deviceName, platformName, udid, platformVersion.
+        // Appium 3: --default-capabilities fue eliminado. El cliente pasa todas las capabilities.
         UiAutomator2Options options = new UiAutomator2Options()
+                .setPlatformName(System.getenv("DEVICEFARM_DEVICE_PLATFORM_NAME"))
+                .setDeviceName(System.getenv("DEVICEFARM_DEVICE_NAME"))
+                .setUdid(System.getenv("DEVICEFARM_DEVICE_UDID"))
+                .setPlatformVersion(System.getenv("DEVICEFARM_DEVICE_OS_VERSION"))
+                .setApp(System.getenv("DEVICEFARM_APP_PATH"))
+                .setAutomationName("UiAutomator2")
                 .setNoReset(false)
                 .setAutoGrantPermissions(true)
                 .setNewCommandTimeout(Duration.ofSeconds(300));
 
+        String chromedriverDir = System.getenv("DEVICEFARM_CHROMEDRIVER_EXECUTABLE_DIR");
+        if (chromedriverDir != null && !chromedriverDir.isEmpty()) {
+            options.setCapability("appium:chromedriverExecutableDir", chromedriverDir);
+        }
+
         try {
-            URL deviceFarmUrl = new URL("http://0.0.0.0:4723" + basePath);
+            URL deviceFarmUrl = new URL("http://0.0.0.0:4723/wd/hub");
             AndroidDriver newDriver = new AndroidDriver(deviceFarmUrl, options);
             newDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
             driver.set(newDriver);
@@ -172,6 +181,16 @@ public class DriverManager {
         currentDriver.activateApp(appPackage);
         try { Thread.sleep(15000); } catch (InterruptedException ignored) {}
         log.info("--- App reiniciada desde cero ---");
+    }
+
+    public static void restartApp() {
+        AndroidDriver currentDriver = getDriver();
+        String appPackage = ConfigReader.getProperty("app.package");
+        log.info("--- Reiniciando app sin borrar datos (sesión preservada): " + appPackage + " ---");
+        currentDriver.terminateApp(appPackage);
+        currentDriver.activateApp(appPackage);
+        try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
+        log.info("--- App reiniciada. Token de sesión preservado ---");
     }
 
     public static void quitDriver() {

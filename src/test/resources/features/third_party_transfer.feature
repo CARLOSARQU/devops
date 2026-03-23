@@ -1,4 +1,5 @@
 # language: es
+@regression @third_party_transfer
 Característica: Transferencia a otras cuentas Los Andes
 
   Antecedentes:

@@ -1,7 +1,7 @@
 <assembly
-    xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0
         http://maven.apache.org/xsd/assembly-1.1.0.xsd">
     <id>zip</id>
     <formats>
@@ -9,23 +9,21 @@
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
-        <!-- Test jar en la raíz del zip -->
         <fileSet>
             <directory>${project.build.directory}</directory>
             <outputDirectory>./</outputDirectory>
             <includes>
-                <include>*-tests.jar</include>
+                <include>*.jar</include>
             </includes>
         </fileSet>
-        <!-- Todas las dependencias en dependency-jars/ -->
         <fileSet>
             <directory>${project.build.directory}/dependency-jars</directory>
             <outputDirectory>dependency-jars/</outputDirectory>
         </fileSet>
-        <!-- Recursos de test (cert.properties, features, etc.) -->
+
         <fileSet>
-            <directory>${project.build.testOutputDirectory}</directory>
-            <outputDirectory>./</outputDirectory>
+            <directory>src/test/resources</directory>
+            <outputDirectory>src/test/resources</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>

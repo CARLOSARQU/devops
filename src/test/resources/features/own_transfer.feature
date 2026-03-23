@@ -1,4 +1,5 @@
 # language: es
+@regression @own_transfer
 Característica: Transferencia entre cuentas propias
 
   Antecedentes:

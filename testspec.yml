@@ -6,9 +6,10 @@ phases:
   install:
     commands:
       - devicefarm-cli use node 20
-      - devicefarm-cli use appium 2
+      # Intentar Appium 3 via CLI; si falla, instalar via npm
+      - devicefarm-cli use appium 3 || npm install -g appium@latest
+      - appium driver install uiautomator2
       - appium --version
-      - export APPIUM_BASE_PATH=
       - devicefarm-cli use java 17
       - java -version
 
@@ -17,34 +18,32 @@ phases:
       # Classpath: test jar + todas las dependencias
       - export CLASSPATH=$CLASSPATH:$DEVICEFARM_TEST_PACKAGE_PATH/*
       - export CLASSPATH=$CLASSPATH:$DEVICEFARM_TEST_PACKAGE_PATH/dependency-jars/*
-      # Arrancar Appium con las capabilities del dispositivo que Device Farm inyecta
+      # Appium 3: ya no soporta --default-capabilities, el cliente pasa las capabilities directamente
       - >
-        appium --base-path=$APPIUM_BASE_PATH --log-timestamp
+        appium --base-path=/wd/hub --log-timestamp
         --log-no-colors --relaxed-security
-        --default-capabilities
-        "{\"appium:deviceName\": \"$DEVICEFARM_DEVICE_NAME\",
-        \"platformName\": \"$DEVICEFARM_DEVICE_PLATFORM_NAME\",
-        \"appium:udid\": \"$DEVICEFARM_DEVICE_UDID\",
-        \"appium:platformVersion\": \"$DEVICEFARM_DEVICE_OS_VERSION\",
-        \"appium:app\": \"$DEVICEFARM_APP_PATH\",
-        \"appium:automationName\": \"UiAutomator2\",
-        \"appium:chromedriverExecutableDir\": \"$DEVICEFARM_CHROMEDRIVER_EXECUTABLE_DIR\"}"
         >> $DEVICEFARM_LOG_DIR/appium.log 2>&1 &
       # Esperar a que Appium esté listo (máx 30 seg)
       - >
         appium_t=0;
-        until curl --silent --fail "http://0.0.0.0:4723/status"; do
+        until curl --silent --fail "http://0.0.0.0:4723/wd/hub/status"; do
           if [[ $appium_t -gt 30 ]]; then echo "Appium no levantó a tiempo"; exit 1; fi;
           appium_t=$((appium_t+1)); sleep 1;
         done
-      - echo "Appium listo en http://0.0.0.0:4723"
+      - echo "Appium listo en http://0.0.0.0:4723/wd/hub"
 
   test:
     commands:
       - cd $DEVICEFARM_TEST_PACKAGE_PATH
+      # TEST_TAGS controla qué tests corren. Ejemplos:
+      #   @login_mainframe or @own_transfer   → sprint actual
+      #   @regression                         → toda la regresión
+      #   @login_mainframe                    → solo login y home
+      - export TEST_TAGS=${TEST_TAGS:-"@regression"}
       - >
         java
         -Dappium.screenshots.dir=$DEVICEFARM_SCREENSHOT_PATH
+        -Dcucumber.filter.tags="$TEST_TAGS"
         -cp $CLASSPATH
         org.testng.TestNG
         -testjar *-tests.jar

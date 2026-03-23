@@ -1,4 +1,5 @@
 # language: es
+@regression @credit_payment
 Característica: Pago de cuota de crédito
 
   Antecedentes:

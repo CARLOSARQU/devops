@@ -23,7 +23,7 @@ public class OwnTransferReceiptPage extends BasePage {
     public boolean isTransferenciaExitosa() {
         log.info("Verificando comprobante de transferencia exitosa");
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15))
+            new WebDriverWait(driver, Duration.ofSeconds(25))
                     .until(ExpectedConditions.visibilityOf(txtTransferenciaExitosa));
             log.info("Comprobante de transferencia exitosa confirmado.");
             return true;
