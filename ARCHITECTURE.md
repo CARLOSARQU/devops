@@ -15,14 +15,14 @@
 ## Stack tecnológico
 
 | Tecnología | Versión | Rol |
-|---|---|---|
-| Java | 17 | Lenguaje principal |
-| Appium Java Client | 8.6.0 | Driver móvil Android |
-| Selenium | 4.13.0 | Base del driver |
-| Cucumber | 7.15.0 | Framework BDD |
-| TestNG | 7.9.0 | Runner de tests |
-| Log4j | 2.25.3 | Logging |
-| Maven | — | Build y empaquetado |
+|---|---------|---|
+| Java | 17+     | Lenguaje principal |
+| Appium Java Client | 8.6.0   | Driver móvil Android |
+| Selenium | 4.13.0  | Base del driver |
+| Cucumber | 7.15.0  | Framework BDD |
+| TestNG | 7.9.0   | Runner de tests |
+| Log4j | 2.25.3  | Logging |
+| Maven | —       | Build y empaquetado |
 
 ---
 
@@ -32,21 +32,10 @@
 qa-automation/
 ├── src/
 │   ├── main/java/
+│   │   ├── base/
+│   │   │   └── BaseScreen.java             # Clase base con métodos comunes de interacción
 │   │   ├── drivers/
 │   │   │   └── DriverManager.java          # Gestión del driver (Local / BrowserStack / DeviceFarm)
-│   │   ├── pages/
-│   │   │   ├── BasePage.java               # Clase base con métodos comunes de interacción
-│   │   │   ├── home/HomePage.java
-│   │   │   ├── login/LoginPage.java
-│   │   │   ├── onboarding/WelcomePage.java
-│   │   │   ├── operations/
-│   │   │   │   ├── OperationMenuPage.java
-│   │   │   │   ├── TransferMenuPage.java
-│   │   │   │   └── PayCreditMenuPage.java
-│   │   │   ├── transfers/
-│   │   │   │   ├── own/                    # Transferencia entre cuentas propias
-│   │   │   │   └── losandes/               # Transferencia a otras cuentas Los Andes
-│   │   │   └── credit/                     # Pago de cuota de crédito
 │   │   └── utils/
 │   │       ├── ConfigReader.java           # Lector de properties
 │   │       └── TestListener.java           # Listener TestNG (logs de resultado)
@@ -55,14 +44,60 @@ qa-automation/
 │       ├── java/
 │       │   ├── hooks/Hooks.java            # Ciclo de vida del test (@BeforeAll, @Before, @After, @AfterAll)
 │       │   ├── runners/TestRunner.java     # Configuración de Cucumber (@CucumberOptions)
-│       │   └── steps/
+│       │   └── screens/
 │       │       ├── ScenarioContext.java    # Estado compartido entre steps
 │       │       ├── CommonSteps.java        # Steps reutilizables (login, navegación)
-│       │       ├── LoginSteps.java
-│       │       ├── HomeSteps.java
-│       │       ├── OwnTransferSteps.java
-│       │       ├── ThirdPartyTransferSteps.java
-│       │       └── CreditPaymentSteps.java
+│       │       ├── onboarding/
+│       │       │   ├── WelcomeScreen.java
+│       │       │   └── WelcomeActions.java
+│       │       ├── login/
+│       │       │   ├── LoginScreen.java
+│       │       │   ├── LoginActions.java
+│       │       │   └── LoginSteps.java
+│       │       ├── home/
+│       │       │   ├── HomeScreen.java
+│       │       │   ├── HomeActions.java
+│       │       │   └── HomeSteps.java
+│       │       ├── operations/
+│       │       │   ├── OperationMenuScreen.java
+│       │       │   ├── OperationMenuActions.java
+│       │       │   ├── TransferMenuScreen.java
+│       │       │   ├── TransferMenuActions.java
+│       │       │   ├── PayCreditMenuScreen.java
+│       │       │   └── PayCreditMenuActions.java
+│       │       ├── transfers/
+│       │       │   ├── own/                # Transferencia entre cuentas propias
+│       │       │   │   ├── OwnTransferDetailsScreen.java
+│       │       │   │   ├── OwnTransferDetailsActions.java
+│       │       │   │   ├── OwnTransferSummaryScreen.java
+│       │       │   │   ├── OwnTransferSummaryActions.java
+│       │       │   │   ├── OwnTransferReceiptScreen.java
+│       │       │   │   ├── OwnTransferReceiptActions.java
+│       │       │   │   └── OwnTransferSteps.java
+│       │       │   └── losandes/           # Transferencia a otras cuentas Los Andes
+│       │       │       ├── LosAndesAccountEntryScreen.java
+│       │       │       ├── LosAndesAccountEntryActions.java
+│       │       │       ├── LosAndesDetailsScreen.java
+│       │       │       ├── LosAndesDetailsActions.java
+│       │       │       ├── LosAndesTransferSummaryScreen.java
+│       │       │       ├── LosAndesTransferSummaryActions.java
+│       │       │       ├── LosAndesOtpScreen.java
+│       │       │       ├── LosAndesOtpActions.java
+│       │       │       ├── LosAndesTransferReceiptScreen.java
+│       │       │       ├── LosAndesTransferReceiptActions.java
+│       │       │       └── ThirdPartyTransferSteps.java
+│       │       └── credit/                 # Pago de cuota de crédito
+│       │           ├── CreditSelectionScreen.java
+│       │           ├── CreditSelectionActions.java
+│       │           ├── CreditMenuScreen.java
+│       │           ├── CreditMenuActions.java
+│       │           ├── AccountSelectionScreen.java
+│       │           ├── AccountSelectionActions.java
+│       │           ├── CreditPaymentSummaryScreen.java
+│       │           ├── CreditPaymentSummaryActions.java
+│       │           ├── CreditPaymentReceiptScreen.java
+│       │           ├── CreditPaymentReceiptActions.java
+│       │           └── CreditPaymentSteps.java
 │       └── resources/
 │           ├── cert.properties             # Configuración local
 │           ├── dev.properties
@@ -83,7 +118,7 @@ qa-automation/
 
 ## Capas y su conexión
 
-El framework tiene 4 capas que se comunican en cascada:
+El framework tiene 5 capas que se comunican en cascada:
 
 ```
 ┌─────────────────────────────────────────┐
@@ -93,7 +128,7 @@ El framework tiene 4 capas que se comunican en cascada:
                  │  Cucumber resuelve cada step por texto
                  ▼
 ┌─────────────────────────────────────────┐
-│           Step Definitions (steps/)      │  ← Traducen el lenguaje natural a código Java
+│           Steps (XxxSteps.java)          │  ← Traducen el lenguaje natural a código Java
 │   @Given  @When  @Then  @And            │
 │   Usan ScenarioContext para             │
 │   compartir objetos entre steps         │
@@ -101,10 +136,16 @@ El framework tiene 4 capas que se comunican en cascada:
                  │  Llaman métodos de negocio
                  ▼
 ┌─────────────────────────────────────────┐
-│           Page Objects (pages/)          │  ← Encapsulan la interacción con la app
-│   Locators: @AndroidFindBy             │
-│   Métodos: click, sendKeys, isLoaded   │
-│   Todos extienden BasePage             │
+│           Actions (XxxActions.java)      │  ← Lógica de flujo y navegación entre pantallas
+│   isLoaded(), clickX() → YActions      │
+│   Extienden su Screen correspondiente  │
+└────────────────┬────────────────────────┘
+                 │  Heredan los locators
+                 ▼
+┌─────────────────────────────────────────┐
+│           Screens (XxxScreen.java)       │  ← Solo locators, sin lógica
+│   @AndroidFindBy(uiAutomator = ...)    │
+│   Todos extienden BaseScreen           │
 └────────────────┬────────────────────────┘
                  │  Usan el driver para interactuar
                  ▼
@@ -114,9 +155,24 @@ El framework tiene 4 capas que se comunican en cascada:
 └─────────────────────────────────────────┘
 ```
 
+### Cadena de herencia
+
+```
+XxxSteps → XxxActions → XxxScreen → BaseScreen
+```
+
+Cada módulo agrupa sus tres capas en el mismo paquete:
+
+```
+screens/login/
+  LoginScreen.java    ← @AndroidFindBy locators
+  LoginActions.java   ← extends LoginScreen, métodos de negocio
+  LoginSteps.java     ← @Given/@When/@Then, usa LoginActions
+```
+
 ### ScenarioContext — estado compartido entre steps
 
-`ScenarioContext` actúa como un contenedor que permite pasar objetos de página entre distintos steps del mismo escenario sin necesitar constructores ni parámetros:
+`ScenarioContext` actúa como un contenedor que permite pasar objetos Actions entre distintos steps del mismo escenario sin necesitar constructores ni parámetros:
 
 ```
 CommonSteps          →  context.homePage        →  HomeSteps
@@ -189,14 +245,14 @@ Ejemplo con `own_transfer.feature`:
    └── Si isLoggedIn = false: WelcomePage → LoginPage → HomePage → isLoggedIn = true
 
 4. Steps del escenario:
-   When navego a Operaciones        → HomePage.irAOperaciones() → OperationMenuPage
-   And selecciono Transferencias    → OperationMenuPage.clickTransferencias() → TransferMenuPage
-   And selecciono Entre mis cuentas → TransferMenuPage.clickEntreMisCuentas() → OwnTransferDetailsPage
-   Then la pantalla de detalles ... → OwnTransferDetailsPage.isLoaded()
-   When ingreso el monto "100"      → OwnTransferDetailsPage.enterAmountAndContinue() → OwnTransferSummaryPage
-   Then la pantalla de resumen ...  → OwnTransferSummaryPage.isLoaded()
-   When confirmo la transferencia   → OwnTransferSummaryPage.clickContinue() → OwnTransferReceiptPage
-   Then el comprobante aparece      → OwnTransferReceiptPage.isTransferenciaExitosa()
+   When navego a Operaciones        → HomeActions.irAOperaciones() → OperationMenuActions
+   And selecciono Transferencias    → OperationMenuActions.clickTransferencias() → TransferMenuActions
+   And selecciono Entre mis cuentas → TransferMenuActions.clickEntreMisCuentas() → OwnTransferDetailsActions
+   Then la pantalla de detalles ... → OwnTransferDetailsActions.isLoaded()
+   When ingreso el monto "100"      → OwnTransferDetailsActions.enterAmountAndContinue() → OwnTransferSummaryActions
+   Then la pantalla de resumen ...  → OwnTransferSummaryActions.isLoaded()
+   When confirmo la transferencia   → OwnTransferSummaryActions.clickContinue() → OwnTransferReceiptActions
+   Then el comprobante aparece      → OwnTransferReceiptActions.isTransferenciaExitosa()
 
 5. @After
    ├── PASS → log éxito, isLoggedIn permanece true

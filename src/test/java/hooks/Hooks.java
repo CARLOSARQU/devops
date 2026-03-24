@@ -8,8 +8,8 @@ import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pages.BasePage;
-import steps.ScenarioContext;
+import base.BaseScreen;
+import screens.ScenarioContext;
 
 public class Hooks {
     private static final Logger log = LogManager.getLogger(Hooks.class);
@@ -64,7 +64,7 @@ public class Hooks {
         if (scenario.isFailed()) {
             log.error("[TEARDOWN] Escenario fallido: {} — guardando screenshot", scenario.getName());
             if (DriverManager.getDriver() != null) {
-                BasePage.takeScreenshot(DriverManager.getDriver(), scenario.getName().replaceAll("[^a-zA-Z0-9]", "_"));
+                BaseScreen.takeScreenshot(DriverManager.getDriver(), scenario.getName().replaceAll("[^a-zA-Z0-9]", "_"));
             }
             log.warn("[TEARDOWN] Marcando sesión como inválida — próximo escenario arrancará desde cero.");
             ScenarioContext.setLoggedIn(false);
