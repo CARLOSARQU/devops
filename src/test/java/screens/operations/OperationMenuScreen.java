@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 
 public class OperationMenuScreen extends BaseScreen {
 
-    // testTag: operations_btn_transferencias
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"operations_btn_transferencias\")")
+    // testTag: btn_operations_transfers
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_operations_transfers\")")
     protected WebElement btnTransferencias;
 
-    // testTag: operations_btn_pagar_credito
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"operations_btn_pagar_credito\")")
+    // testTag: btn_operations_pay_credit
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_operations_pay_credit\")")
     protected WebElement btnPagarCredito;
 
     public OperationMenuScreen(AndroidDriver driver) { super(driver); }

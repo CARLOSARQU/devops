@@ -7,16 +7,16 @@ import org.openqa.selenium.WebElement;
 
 public class OwnTransferDetailsScreen extends BaseScreen {
 
-    // testTag: transfer_origin_account_card
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"transfer_origin_account_card\")")
+    // testTag: card_transfer_own_origin
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"card_transfer_own_origin\")")
     protected WebElement originAccountCard;
 
-    // testTag: transfer_amount_field
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"transfer_amount_field\")")
+    // testTag: field_transfer_own_amount
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"field_transfer_own_amount\")")
     protected WebElement amountField;
 
-    // testTag: transfer_continue_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"transfer_continue_button\")")
+    // testTag: btn_transfer_own_continue
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_own_continue\")")
     protected WebElement btnContinue;
 
     public OwnTransferDetailsScreen(AndroidDriver driver) { super(driver); }

@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 
 public class LosAndesAccountEntryScreen extends BaseScreen {
 
-    // testTag: third_party_account_number_field
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_account_number_field\")")
+    // testTag: field_transfer_third_account_number
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"field_transfer_third_account_number\")")
     protected WebElement accountNumberField;
 
-    // testTag: third_party_account_entry_continue_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_account_entry_continue_button\")")
+    // testTag: btn_transfer_third_entry_continue
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_third_entry_continue\")")
     protected WebElement btnContinue;
 
     public LosAndesAccountEntryScreen(AndroidDriver driver) { super(driver); }

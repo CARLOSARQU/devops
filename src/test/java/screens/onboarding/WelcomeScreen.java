@@ -16,8 +16,8 @@ public class WelcomeScreen extends BaseScreen {
     @AndroidFindBy(id = "com.android.permissioncontroller:id/permission_allow_button")
     protected WebElement btnPermisoGeneral;
 
-    // testTag: welcome_login_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"welcome_login_button\")")
+    // testTag: btn_welcome_login
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_welcome_login\")")
     protected WebElement btnIniciarSesion;
 
     public WelcomeScreen(AndroidDriver driver) { super(driver); }

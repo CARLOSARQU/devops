@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class LosAndesTransferReceiptScreen extends BaseScreen {
 
-    // testTag: third_party_receipt_title — texto "Transferencia exitosa"
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_receipt_title\")")
+    // testTag: title_transfer_third_receipt — texto "Transferencia exitosa"
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"title_transfer_third_receipt\")")
     protected WebElement txtTransferenciaExitosa;
 
     public LosAndesTransferReceiptScreen(AndroidDriver driver) { super(driver); }

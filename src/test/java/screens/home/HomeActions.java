@@ -38,35 +38,33 @@ public class HomeActions extends HomeScreen {
         }
     }
 
-    public boolean isShortcutTransferirVisible() {
-        scrollToElement("home_shortcut_transfer_money");
-        return isDisplayed(btnShortcutTransferir);
-    }
-
-    public boolean isShortcutTransferenciaCelularVisible() {
-        scrollToElement("home_shortcut_mobile_transfer");
-        return isDisplayed(btnShortcutTransferenciaCelular);
-    }
-
-    public boolean isShortcutPagarCuotaVisible() {
-        scrollToElement("home_shortcut_pay_credit");
-        return isDisplayed(btnShortcutPagarCuota);
-    }
-
-    public boolean isShortcutAbrirCuentaDigitalVisible() {
-        scrollToElement("home_shortcut_open_digital_account");
-        return isDisplayed(btnShortcutAbrirCuentaDigital);
-    }
-
     public HomeActions clickToggleBalance() {
         log.info("Alternando visibilidad de saldo");
         click(btnToggleBalance, "Toggle Balance");
         return this;
     }
 
+    public boolean isNavBarDisplayed() {
+        return isDisplayed(btnNavOperaciones);
+    }
+
     public OperationMenuActions irAOperaciones() {
         log.info("Navegando a Operaciones via bottom nav");
-        clickByText("Operaciones", "Tab Operaciones");
+        click(btnNavOperaciones, "Tab Operaciones");
         return new OperationMenuActions(driver);
+    }
+
+    // TODO: reemplazar por testTag cuando el design system exponga btn_nav_campaigns
+    public HomeActions irACampanas() {
+        log.info("Navegando a Campañas via bottom nav");
+        click(btnNavCampanas, "Tab Campañas");
+        return this;
+    }
+
+    // TODO: reemplazar por testTag cuando el design system exponga btn_nav_menu
+    public HomeActions irAMenu() {
+        log.info("Navegando a Menú via bottom nav");
+        click(btnNavMenu, "Tab Menú");
+        return this;
     }
 }

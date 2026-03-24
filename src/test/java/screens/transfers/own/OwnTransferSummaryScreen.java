@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class OwnTransferSummaryScreen extends BaseScreen {
 
-    // testTag: transfer_summary_continue_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"transfer_summary_continue_button\")")
+    // testTag: btn_transfer_own_summary_continue
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_own_summary_continue\")")
     protected WebElement btnContinue;
 
     public OwnTransferSummaryScreen(AndroidDriver driver) { super(driver); }

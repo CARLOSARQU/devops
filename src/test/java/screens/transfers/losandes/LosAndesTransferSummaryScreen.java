@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class LosAndesTransferSummaryScreen extends BaseScreen {
 
-    // testTag: third_party_summary_continue_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_summary_continue_button\")")
+    // testTag: btn_transfer_third_summary_continue
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_third_summary_continue\")")
     protected WebElement btnContinue;
 
     public LosAndesTransferSummaryScreen(AndroidDriver driver) { super(driver); }

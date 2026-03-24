@@ -7,16 +7,16 @@ import org.openqa.selenium.WebElement;
 
 public class LoginScreen extends BaseScreen {
 
-    // testTag: login_dni_field
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"login_dni_field\")")
+    // testTag: field_login_dni
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"field_login_dni\")")
     protected WebElement dniField;
 
-    // testTag: login_password_field
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"login_password_field\")")
+    // testTag: field_login_password
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"field_login_password\")")
     protected WebElement passwordField;
 
-    // testTag: login_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"login_button\")")
+    // testTag: btn_login_submit
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_login_submit\")")
     protected WebElement btnLogin;
 
     // Dialog de credenciales incorrectas

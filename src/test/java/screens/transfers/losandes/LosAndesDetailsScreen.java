@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 
 public class LosAndesDetailsScreen extends BaseScreen {
 
-    // testTag: third_party_amount_field
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_amount_field\")")
+    // testTag: field_transfer_third_amount
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"field_transfer_third_amount\")")
     protected WebElement amountField;
 
-    // testTag: third_party_details_continue_button
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"third_party_details_continue_button\")")
+    // testTag: btn_transfer_third_details_continue
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_third_details_continue\")")
     protected WebElement btnContinue;
 
     public LosAndesDetailsScreen(AndroidDriver driver) { super(driver); }

@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class AccountSelectionScreen extends BaseScreen {
 
-    // testTag: account_selection_confirm_pay_button — siempre renderizado, se habilita cuando la API carga
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"account_selection_confirm_pay_button\")")
+    // testTag: btn_credit_account_confirm_pay — siempre renderizado, se habilita cuando la API carga
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_credit_account_confirm_pay\")")
     protected WebElement btnConfirmarPago;
 
     public AccountSelectionScreen(AndroidDriver driver) { super(driver); }

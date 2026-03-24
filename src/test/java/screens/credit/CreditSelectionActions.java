@@ -17,7 +17,7 @@ public class CreditSelectionActions extends CreditSelectionScreen {
             new WebDriverWait(driver, Duration.ofSeconds(15))
                     .until(ExpectedConditions.visibilityOfElementLocated(
                             AppiumBy.androidUIAutomator(
-                                    "new UiSelector().resourceIdMatches(\"credit_selection_btn_.*\")")));
+                                    "new UiSelector().resourceIdMatches(\"btn_credit_selection_.*\")")));
             return true;
         } catch (Exception e) {
             log.warn("No apareció ningún crédito en pantalla en el tiempo esperado");
@@ -29,7 +29,7 @@ public class CreditSelectionActions extends CreditSelectionScreen {
         log.info("Seleccionando el primer crédito disponible");
         WebElement btn = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(d -> d.findElement(AppiumBy.androidUIAutomator(
-                        "new UiSelector().resourceIdMatches(\"credit_selection_btn_.*\")")));
+                        "new UiSelector().resourceIdMatches(\"btn_credit_selection_.*\")")));
         btn.click();
         return new CreditMenuActions(driver);
     }

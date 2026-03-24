@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class CreditMenuScreen extends BaseScreen {
 
-    // testTag: credit_menu_pago_cuota
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"credit_menu_pago_cuota\")")
+    // testTag: btn_credit_menu_pay_quota
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_credit_menu_pay_quota\")")
     protected WebElement btnPagarCuota;
 
     public CreditMenuScreen(AndroidDriver driver) { super(driver); }
