@@ -25,11 +25,12 @@ public class CreditSelectionActions extends CreditSelectionScreen {
         }
     }
 
-    public CreditMenuActions selectFirstCredit() {
-        log.info("Seleccionando el primer crédito disponible");
+    public CreditMenuActions selectCreditByIndex(int index) {
+        log.info("Seleccionando crédito en posición: {}", index + 1);
         WebElement btn = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(d -> d.findElement(AppiumBy.androidUIAutomator(
-                        "new UiSelector().resourceIdMatches(\"btn_credit_selection_.*\")")));
+                .until(d -> d.findElements(AppiumBy.androidUIAutomator(
+                        "new UiSelector().resourceIdMatches(\"btn_credit_selection_.*\")")))
+                .get(index);
         btn.click();
         return new CreditMenuActions(driver);
     }

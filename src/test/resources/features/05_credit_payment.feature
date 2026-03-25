@@ -10,7 +10,7 @@ Feature: Pago de cuota de crédito
     Then la pantalla de selección de crédito a pagar carga
     When selecciono Paga un crédito propio
     Then los créditos cargan correctamente
-    When selecciono el primer crédito
+    When selecciono el crédito número 2
     Then el menú del crédito carga
     When selecciono Pago de cuota
     Then la pantalla de pago de cuota carga

@@ -44,10 +44,10 @@ public class CreditPaymentSteps {
         Assert.assertTrue(creditSelectionActions.isLoaded(), "Los créditos no cargaron en 15 seg");
     }
 
-    @When("selecciono el primer crédito")
-    public void seleccionoElPrimerCredito() {
-        log.info("Paso: selecciono el primer crédito");
-        creditMenuActions = creditSelectionActions.selectFirstCredit();
+    @When("selecciono el crédito número {int}")
+    public void seleccionoElCreditoNumero(int numero) {
+        log.info("Paso: selecciono crédito número {}", numero);
+        creditMenuActions = creditSelectionActions.selectCreditByIndex(numero - 1);
     }
 
     @Then("el menú del crédito carga")
