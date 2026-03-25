@@ -23,7 +23,9 @@ public class CommonSteps {
     @Given("el usuario ha iniciado sesión")
     public void elUsuarioHaIniciadoSesion() {
         if (ScenarioContext.isLoggedIn()) {
-            log.info("Paso: sesión activa — reutilizando. Inicializando HomeActions.");
+            log.info("Paso: sesión activa — verificando clave digital.");
+            String password = ConfigReader.getProperty("test.password");
+            new LoginActions(DriverManager.getDriver()).ingresarClaveDigitalSiAparece(password);
             context.homePage = new HomeActions(DriverManager.getDriver());
             return;
         }

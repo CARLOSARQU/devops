@@ -9,8 +9,8 @@ Feature: Pantalla Home de la aplicación Los Andes
     Then la sección Mis productos es visible
 
   @smoke
-  Scenario: Los accesos rápidos están visibles
-    Then los shortcuts de Transferir, Transferencia Celular, Pagar Cuota y Abrir Cuenta Digital son visibles
+  Scenario: La barra de navegación inferior está visible
+    Then la barra de navegación inferior es visible
 
   @smoke
   Scenario: El toggle de saldo alterna sin romper la pantalla

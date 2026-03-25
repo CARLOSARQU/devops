@@ -54,8 +54,19 @@ public abstract class BaseScreen {
         new org.openqa.selenium.interactions.Actions(driver).sendKeys(text).perform();
     }
 
+
     protected void waitForVisibility(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected void waitForVisibility(WebElement element, int seconds) {
+        new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                .until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected void waitForClickability(WebElement element, int seconds) {
+        new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                .until(ExpectedConditions.elementToBeClickable(element));
     }
 
     protected void scrollToElement(String resourceId) {

@@ -1,29 +1,21 @@
 package screens.transfers.losandes;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 public class LosAndesTransferSummaryActions extends LosAndesTransferSummaryScreen {
 
-    public LosAndesTransferSummaryActions(AndroidDriver driver) { super(driver); }
+    public LosAndesTransferSummaryActions(AndroidDriver driver) {
+        super(driver);
+        waitForVisibility(btnContinue, 20);
+    }
 
     public boolean isLoaded() {
-        log.info("Verificando que la pantalla de resumen cargó (max 20 seg — espera respuesta API)");
-        try {
-            new WebDriverWait(driver, Duration.ofSeconds(20))
-                    .until(ExpectedConditions.visibilityOf(btnContinue));
-            return true;
-        } catch (Exception e) {
-            log.warn("Pantalla de resumen no cargó a tiempo");
-            return false;
-        }
+        return btnContinue.isDisplayed();
     }
 
     public LosAndesOtpActions clickContinue() {
         log.info("Confirmando transferencia en pantalla de resumen");
-        scrollToElement("third_party_summary_continue_button");
+        scrollToElement("btn_transfer_third_summary_continue");
         click(btnContinue, "Botón Continuar (Resumen)");
         return new LosAndesOtpActions(driver);
     }

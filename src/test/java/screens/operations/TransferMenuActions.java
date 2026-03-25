@@ -6,7 +6,10 @@ import screens.transfers.losandes.LosAndesAccountEntryActions;
 
 public class TransferMenuActions extends TransferMenuScreen {
 
-    public TransferMenuActions(AndroidDriver driver) { super(driver); }
+    public TransferMenuActions(AndroidDriver driver) {
+        super(driver);
+        waitForVisibility(btnEntreMisCuentas, 10);
+    }
 
     public OwnTransferDetailsActions clickEntreMisCuentas() {
         log.info("Seleccionando opción: Entre mis cuentas");

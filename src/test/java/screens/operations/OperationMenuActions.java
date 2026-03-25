@@ -4,7 +4,10 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class OperationMenuActions extends OperationMenuScreen {
 
-    public OperationMenuActions(AndroidDriver driver) { super(driver); }
+    public OperationMenuActions(AndroidDriver driver) {
+        super(driver);
+        waitForVisibility(btnTransferencias, 15);
+    }
 
     public TransferMenuActions clickTransferencias() {
         log.info("Seleccionando opción: Transferencias");

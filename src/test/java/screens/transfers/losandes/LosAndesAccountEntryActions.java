@@ -1,24 +1,16 @@
 package screens.transfers.losandes;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 public class LosAndesAccountEntryActions extends LosAndesAccountEntryScreen {
 
-    public LosAndesAccountEntryActions(AndroidDriver driver) { super(driver); }
+    public LosAndesAccountEntryActions(AndroidDriver driver) {
+        super(driver);
+        waitForVisibility(accountNumberField, 10);
+    }
 
     public boolean isLoaded() {
-        log.info("Verificando que la pantalla de ingreso de cuenta cargó");
-        try {
-            new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.visibilityOf(accountNumberField));
-            return true;
-        } catch (Exception e) {
-            log.warn("Pantalla de ingreso de cuenta no cargó a tiempo");
-            return false;
-        }
+        return accountNumberField.isDisplayed();
     }
 
     public LosAndesDetailsActions enterAccountNumberAndContinue(String accountNumber) {

@@ -19,14 +19,12 @@ public class HomeSteps {
         log.info("RESULTADO: Home Page verificada correctamente.");
     }
 
-    @Then("los shortcuts de Transferir, Transferencia Celular, Pagar Cuota y Abrir Cuenta Digital son visibles")
-    public void losShortcutsSonVisibles() {
-        log.info("Paso: verificando shortcuts visibles");
-        Assert.assertTrue(context.homePage.isShortcutTransferirVisible(),          "Shortcut 'Transferir' no visible");
-        Assert.assertTrue(context.homePage.isShortcutTransferenciaCelularVisible(), "Shortcut 'Transferencia Celular' no visible");
-        Assert.assertTrue(context.homePage.isShortcutPagarCuotaVisible(),           "Shortcut 'Pagar Cuota' no visible");
-        Assert.assertTrue(context.homePage.isShortcutAbrirCuentaDigitalVisible(),   "Shortcut 'Abrir Cuenta Digital' no visible");
-        log.info("RESULTADO: Todos los shortcuts verificados correctamente.");
+    @Then("la barra de navegación inferior es visible")
+    public void laBarraDeNavegacionEsVisible() {
+        log.info("Paso: verificando que la barra de navegación inferior es visible");
+        Assert.assertTrue(context.homePage.isNavBarDisplayed(),
+                "La barra de navegación inferior no es visible en Home");
+        log.info("RESULTADO: Barra de navegación verificada correctamente.");
     }
 
     @When("alterno el toggle de saldo")

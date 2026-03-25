@@ -27,6 +27,21 @@ public class LoginActions extends LoginScreen {
         click(btnLogin, "Botón Ingresar");
     }
 
+    public boolean ingresarClaveDigitalSiAparece(String password) {
+        log.info("Verificando si aparece la pantalla de clave digital...");
+        try {
+            waitForVisibility(passwordField, 5);
+            log.info("Pantalla de clave digital detectada — ingresando clave");
+            sendPassword(passwordField, password, "Campo Clave Digital");
+            driver.hideKeyboard();
+            click(btnLogin, "Botón Confirmar Clave Digital");
+            return true;
+        } catch (Exception e) {
+            log.info("Pantalla de clave digital no apareció — continuando");
+            return false;
+        }
+    }
+
     public boolean isErrorModalDisplayed() {
         log.info("Validando si el modal de error es visible");
         try {

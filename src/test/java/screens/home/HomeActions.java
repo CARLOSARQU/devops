@@ -1,10 +1,7 @@
 package screens.home;
 
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import screens.operations.OperationMenuActions;
-import java.time.Duration;
 
 public class HomeActions extends HomeScreen {
 
@@ -16,8 +13,7 @@ public class HomeActions extends HomeScreen {
     private void gestionarModalAviso() {
         log.info("--- Verificando posible modal de aviso ---");
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(40))
-                    .until(ExpectedConditions.visibilityOf(btnEntendidoModal));
+            waitForVisibility(btnEntendidoModal, 40);
             log.info("Modal de aviso detectado. Procediendo a cerrar...");
             btnEntendidoModal.click();
             log.info("Modal cerrado satisfactoriamente.");
@@ -29,8 +25,7 @@ public class HomeActions extends HomeScreen {
     public boolean isHomePageDisplayed() {
         log.info("Validando si la Home Page se muestra correctamente");
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15))
-                    .until(ExpectedConditions.visibilityOf(txtMisProductos));
+            waitForVisibility(txtMisProductos, 15);
             return true;
         } catch (Exception e) {
             log.warn("'Mis productos' no es visible en el tiempo esperado");

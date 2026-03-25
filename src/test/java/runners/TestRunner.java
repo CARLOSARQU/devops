@@ -4,7 +4,13 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        features = "classpath:features",
+        features = {
+                "classpath:features/01_login.feature",
+                "classpath:features/02_home.feature",
+                "classpath:features/03_own_transfer.feature",
+                "classpath:features/04_third_party_transfer.feature",
+                "classpath:features/05_credit_payment.feature"
+        },
         glue = {"screens", "hooks"},
         plugin = {
                 "pretty",
