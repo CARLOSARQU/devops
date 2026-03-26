@@ -6,10 +6,14 @@ import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
+import io.qameta.allure.Allure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import base.BaseScreen;
 import screens.ScenarioContext;
+import java.io.ByteArrayInputStream;
 
 public class Hooks {
     private static final Logger log = LogManager.getLogger(Hooks.class);
@@ -64,6 +68,8 @@ public class Hooks {
         if (scenario.isFailed()) {
             log.error("[TEARDOWN] Escenario fallido: {} — guardando screenshot", scenario.getName());
             if (DriverManager.getDriver() != null) {
+                byte[] screenshot = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
+                Allure.addAttachment("Screenshot - " + scenario.getName(), "image/png", new ByteArrayInputStream(screenshot), "png");
                 BaseScreen.takeScreenshot(DriverManager.getDriver(), scenario.getName().replaceAll("[^a-zA-Z0-9]", "_"));
             }
             log.warn("[TEARDOWN] Marcando sesión como inválida — próximo escenario arrancará desde cero.");

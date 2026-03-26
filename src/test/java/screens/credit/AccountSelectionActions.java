@@ -29,7 +29,7 @@ public class AccountSelectionActions extends AccountSelectionScreen {
         } catch (Exception e) {
             log.warn("El botón 'Ver detalles de pago' no se habilitó en el tiempo esperado");
         }
-        scrollToElement("account_selection_confirm_pay_button");
+        scrollToElement("btn_credit_account_confirm_pay");
         click(btnConfirmarPago, "Botón Ver detalles de pago");
         return new CreditPaymentSummaryActions(driver);
     }

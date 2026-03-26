@@ -14,7 +14,7 @@ import java.time.Duration;
 public abstract class BaseScreen {
     protected AndroidDriver driver;
     protected WebDriverWait wait;
-    protected static final Logger log = LogManager.getLogger(BaseScreen.class);
+    protected final Logger log = LogManager.getLogger(getClass());
 
     public BaseScreen(AndroidDriver driver) {
         this.driver = driver;
@@ -103,6 +103,7 @@ public abstract class BaseScreen {
     }
 
     public static String takeScreenshot(AndroidDriver driver, String screenshotName) {
+        Logger staticLog = LogManager.getLogger(BaseScreen.class);
         String dateName = new java.text.SimpleDateFormat("yyyyMMddhhmmss").format(new java.util.Date());
         org.openqa.selenium.TakesScreenshot ts = (org.openqa.selenium.TakesScreenshot) driver;
         java.io.File source = ts.getScreenshotAs(org.openqa.selenium.OutputType.FILE);
@@ -111,9 +112,9 @@ public abstract class BaseScreen {
             java.io.File destFile = new java.io.File(destination);
             destFile.getParentFile().mkdirs();
             org.apache.commons.io.FileUtils.copyFile(source, destFile);
-            log.info("Screenshot guardado en: {}", destination);
+            staticLog.info("Screenshot guardado en: {}", destination);
         } catch (java.io.IOException e) {
-            log.error("Error al guardar screenshot: {}", e.getMessage());
+            staticLog.error("Error al guardar screenshot: {}", e.getMessage());
         }
         return destination;
     }
