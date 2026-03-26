@@ -42,6 +42,8 @@ phases:
       - export TEST_TAGS=${TEST_TAGS:-"@regression"}
       - >
         java
+        -javaagent:$DEVICEFARM_TEST_PACKAGE_PATH/dependency-jars/aspectjweaver-1.9.21.jar
+        -Dallure.results.directory=$DEVICEFARM_TEST_PACKAGE_PATH/target/allure-results
         -Dappium.screenshots.dir=$DEVICEFARM_SCREENSHOT_PATH
         -Dcucumber.filter.tags="$TEST_TAGS"
         -cp $CLASSPATH
@@ -56,3 +58,6 @@ phases:
 
 artifacts:
   - $DEVICEFARM_LOG_DIR
+  - $DEVICEFARM_TEST_PACKAGE_PATH/target/allure-results
+  - $DEVICEFARM_TEST_PACKAGE_PATH/target/screenshots
+  - $DEVICEFARM_TEST_PACKAGE_PATH/target/cucumber-reports
