@@ -16,3 +16,4 @@ Feature: Pantalla Home de la aplicación Los Andes
   Scenario: El toggle de saldo alterna sin romper la pantalla
     When alterno el toggle de saldo
     Then la pantalla Home sigue mostrándose correctamente
+    And  la barra de navegación inferior es visible
