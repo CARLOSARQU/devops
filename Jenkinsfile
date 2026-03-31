@@ -54,6 +54,12 @@ pipeline {
                 }
             }
         }
+        stage('Debug PATH') {
+              steps {
+                  bat 'where appium'
+                  bat 'echo %PATH%'
+              }
+          }
     }
 
     post {
