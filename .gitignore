@@ -13,3 +13,4 @@ allure-report/
 local.properties
 .claude/
 .allure/
+src/test/resources/*.properties
