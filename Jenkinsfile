@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                        mvn test ^
+                        mvn clean test ^
                         -Denv=${params.ENV} ^
                         -Dcucumber.filter.tags="${params.TEST_TAGS}" ^
                         -Dallure.results.directory=target/allure-results
