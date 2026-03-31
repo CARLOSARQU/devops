@@ -62,11 +62,21 @@ public class DriverManager {
         log.info("Iniciando servidor Appium internamente...");
         File appiumLogFile = new File("target/appium-server.log");
 
-        AppiumDriverLocalService service = new AppiumServiceBuilder()
+        String appiumPath = System.getProperty("appium.executable",
+                System.getenv("APPIUM_EXECUTABLE") != null
+                        ? System.getenv("APPIUM_EXECUTABLE")
+                        : "appium");
+
+        AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .usingAnyFreePort()
                 .withArgument(GeneralServerFlag.LOG_LEVEL, "error")
-                .withLogFile(appiumLogFile)
-                .build();
+                .withLogFile(appiumLogFile);
+
+        if (!appiumPath.equals("appium")) {
+            builder.withAppiumJS(new File(appiumPath));
+        }
+
+        AppiumDriverLocalService service = builder.build();
 
         service.start();
         appiumService.set(service);

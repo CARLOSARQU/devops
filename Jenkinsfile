@@ -15,9 +15,10 @@ pipeline {
     }
 
     environment {
-        JAVA_HOME  = 'C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot'
-        MAVEN_HOME = 'C:\\maven\\apache-maven-3.9.12'
-        PATH       = "${JAVA_HOME}\\bin;${MAVEN_HOME}\\bin;${env.PATH}"
+        JAVA_HOME         = 'C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot'
+        MAVEN_HOME        = 'C:\\maven\\apache-maven-3.9.12'
+        PATH              = "${JAVA_HOME}\\bin;${MAVEN_HOME}\\bin;${env.PATH}"
+        APPIUM_EXECUTABLE = 'C:\\Users\\SOLTECH-LAP18\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js'
     }
 
     stages {
@@ -54,12 +55,6 @@ pipeline {
                 }
             }
         }
-        stage('Debug PATH') {
-              steps {
-                  bat 'where appium'
-                  bat 'echo %PATH%'
-              }
-          }
     }
 
     post {
