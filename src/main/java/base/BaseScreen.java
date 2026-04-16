@@ -24,7 +24,7 @@ public abstract class BaseScreen {
 
     protected void click(WebElement element, String elementName) {
         log.info("Haciendo clic en: {}", elementName);
-        waitForVisibility(element);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
 
@@ -89,6 +89,18 @@ public abstract class BaseScreen {
                 "new UiSelector().text(\"" + text + "\")"
             )));
         el.click();
+    }
+
+    protected boolean isTextVisible(String text) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(d -> d.findElement(AppiumBy.androidUIAutomator(
+                    "new UiSelector().textContains(\"" + text + "\")"
+                )));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     protected boolean isDisplayed(WebElement element) {
