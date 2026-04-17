@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 public class HomeScreen extends BaseScreen {
 
     // testTag: btn_home_popup_understood
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_home_popup_understood\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().text(\"Entendido\")")
     protected WebElement btnEntendidoModal;
 
     // testTag: title_home_products

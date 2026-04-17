@@ -21,4 +21,14 @@ public class OwnTransferDetailsActions extends OwnTransferDetailsScreen {
         click(btnContinue, "Botón Continuar (Detalles)");
         return new OwnTransferSummaryActions(driver);
     }
+
+    public void enterAmount(String amount) {
+        log.info("Ingresando monto para validación: {}", amount);
+        sendKeys(amountField, amount, "Campo Monto");
+        driver.hideKeyboard();
+    }
+
+    public boolean isMensajeValidacionVisible(String texto) {
+        return isTextVisible(texto);
+    }
 }

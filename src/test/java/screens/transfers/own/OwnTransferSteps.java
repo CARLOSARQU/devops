@@ -34,6 +34,19 @@ public class OwnTransferSteps {
         summaryActions = detailsActions.enterAmountAndContinue(monto);
     }
 
+    @When("ingreso el monto invalido {string}")
+    public void ingresoElMontoInvalido(String monto) {
+        log.info("Paso: ingreso monto inválido '{}'", monto);
+        detailsActions.enterAmount(monto);
+    }
+
+    @Then("aparece el mensaje de validación {string}")
+    public void apareceElMensajeDeValidacion(String mensaje) {
+        log.info("Paso: verificando mensaje de validación '{}'", mensaje);
+        Assert.assertTrue(detailsActions.isMensajeValidacionVisible(mensaje),
+            "El mensaje de validación '" + mensaje + "' no apareció");
+    }
+
     @Then("la pantalla de resumen de transferencia carga")
     public void laPantallaDeResumenCarga() {
         log.info("Paso: verificando pantalla de resumen");

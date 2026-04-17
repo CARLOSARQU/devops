@@ -7,10 +7,10 @@ pipeline {
             choices: ['@smoke', '@regression', '@login_test', '@login_mainframe'],
             description: 'Tags de Cucumber a ejecutar'
         )
-        string(
+        choice(
             name: 'ENV',
-            defaultValue: 'cert',
-            description: 'Entorno de ejecución (cert / dev)'
+            choices: ['cert', 'dev'],
+            description: 'Entorno de ejecución'
         )
     }
 
