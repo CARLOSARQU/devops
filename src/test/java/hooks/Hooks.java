@@ -1,6 +1,7 @@
 package hooks;
 
 import drivers.DriverManager;
+import utils.DatabaseManager;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -36,6 +37,7 @@ public class Hooks {
         log.info("========================================================");
         log.info("[SUITE] Iniciando servidor Appium...");
         log.info("========================================================");
+        DatabaseManager.init();
         DriverManager.startAppiumServer();
         log.info("[SUITE] Servidor Appium listo.");
         log.info("[SUITE] Creando sesión del driver (una sola vez)...");
@@ -51,6 +53,7 @@ public class Hooks {
         log.info("========================================================");
         DriverManager.quitDriver();
         DriverManager.stopAppiumServer();
+        DatabaseManager.close();
         log.info("[SUITE] Suite finalizada correctamente.");
         log.info("========================================================");
     }

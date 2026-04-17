@@ -71,6 +71,18 @@
         <version>7.15.0</version>
         <scope>test</scope>
     </dependency>
+    <!-- Base de datos: SQL Server -->
+    <dependency>
+        <groupId>com.microsoft.sqlserver</groupId>
+        <artifactId>mssql-jdbc</artifactId>
+        <version>12.4.2.jre11</version>
+    </dependency>
+    <!-- Connection pool -->
+    <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>5.1.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
