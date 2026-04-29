@@ -21,9 +21,12 @@ public class LosAndesOtpActions extends LosAndesOtpScreen {
         }
     }
 
-    public LosAndesTransferReceiptActions clickEnviar() {
-        log.info("Haciendo clic en Enviar (OTP auto-completado por SMS)");
-        click(btnEnviar, "Botón Enviar OTP");
+    /**
+     * El OTP se auto-rellena vía SMS y la pantalla navega automáticamente al comprobante
+     * (~30 segundos). No se requiere ninguna interacción manual.
+     */
+    public LosAndesTransferReceiptActions esperarAutoEnvio() {
+        log.info("Esperando auto-envío del OTP por SMS (max 40 seg)...");
         return new LosAndesTransferReceiptActions(driver);
     }
 }

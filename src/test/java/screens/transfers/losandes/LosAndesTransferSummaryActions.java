@@ -13,10 +13,10 @@ public class LosAndesTransferSummaryActions extends LosAndesTransferSummaryScree
         return btnContinue.isDisplayed();
     }
 
-    public LosAndesOtpActions clickContinue() {
+    public LosAndesTransferReceiptActions clickContinue() {
         log.info("Confirmando transferencia en pantalla de resumen");
-        scrollToElement("btn_transfer_third_summary_continue");
+        scrollToElement("btn_transfer_thirdcla_summary_continuar");
         click(btnContinue, "Botón Continuar (Resumen)");
-        return new LosAndesOtpActions(driver);
+        return new LosAndesTransferReceiptActions(driver);
     }
 }

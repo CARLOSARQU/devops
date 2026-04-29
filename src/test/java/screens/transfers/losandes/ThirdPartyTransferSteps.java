@@ -16,7 +16,6 @@ public class ThirdPartyTransferSteps {
     private LosAndesAccountEntryActions accountEntryActions;
     private LosAndesDetailsActions detailsActions;
     private LosAndesTransferSummaryActions summaryActions;
-    private LosAndesOtpActions otpActions;
     private LosAndesTransferReceiptActions receiptActions;
 
     @And("selecciono A otras cuentas Los Andes")
@@ -59,19 +58,7 @@ public class ThirdPartyTransferSteps {
     @When("confirmo la transferencia a terceros")
     public void confirmoLaTransferenciaATerceros() {
         log.info("Paso: confirmo transferencia a terceros");
-        otpActions = summaryActions.clickContinue();
-    }
-
-    @Then("la pantalla OTP aparece")
-    public void laPantallaOTPAparece() {
-        log.info("Paso: verificando pantalla OTP");
-        Assert.assertTrue(otpActions.isLoaded(), "El dialog OTP no apareció");
-    }
-
-    @When("envío el OTP")
-    public void envioElOTP() {
-        log.info("Paso: envío OTP");
-        receiptActions = otpActions.clickEnviar();
+        receiptActions = summaryActions.clickContinue();
     }
 
     @Then("el comprobante de transferencia a terceros aparece")

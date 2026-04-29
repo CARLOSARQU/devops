@@ -7,13 +7,22 @@ import org.openqa.selenium.WebElement;
 
 public class TransferMenuScreen extends BaseScreen {
 
-    // testTag: btn_transfer_menu_own
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_menu_own\")")
+    // testTag: btn_operations_transfer_cuentas
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_operations_transfer_cuentas\")")
     protected WebElement btnEntreMisCuentas;
 
-    // testTag: btn_transfer_menu_third_party
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_transfer_menu_third_party\")")
+    // testTag: btn_operations_transfer_cuentas_terceros
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_operations_transfer_cuentas_terceros\")")
     protected WebElement btnOtrasCuentasAndes;
+
+    // testTag: btn_operations_transfer_otras_entidades
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_operations_transfer_otras_entidades\")")
+    protected WebElement btnOtrasEntidades;
+
+    // testTag: btn_operations_transfer_celular
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"btn_operations_transfer_celular\")")
+    protected WebElement btnCelular;
+
 
     public TransferMenuScreen(AndroidDriver driver) { super(driver); }
 }
