@@ -4,7 +4,7 @@ pipeline {
     parameters {
         choice(
             name: 'TEST_TAGS',
-            choices: ['@smoke', '@regression', '@login_test', '@login_mainframe'],
+            choices: ['@smoke', '@regression', '@login_test', '@login_mainframe', '@third_party_transfer'],
             description: 'Tags de Cucumber a ejecutar'
         )
         choice(
