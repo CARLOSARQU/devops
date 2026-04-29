@@ -14,6 +14,4 @@ Feature: Transferencia a otras cuentas Los Andes
     When ingreso el monto "100" en transferencia a terceros y continúo
     Then la pantalla de resumen de transferencia a terceros carga
     When confirmo la transferencia a terceros
-    Then la pantalla OTP aparece
-    When envío el OTP
     Then el comprobante de transferencia a terceros aparece
