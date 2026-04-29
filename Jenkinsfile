@@ -45,7 +45,14 @@ pipeline {
 
         stage('Ejecutar tests') {
             steps {
-                script {
+                withCredentials([
+                    file(credentialsId: 'cert-properties', variable: 'CERT_PROPS'),
+                    file(credentialsId: 'dev-properties',  variable: 'DEV_PROPS')
+                ]) {
+                    bat """
+                        copy /Y "%CERT_PROPS%" src\\test\\resources\\cert.properties
+                        copy /Y "%DEV_PROPS%"  src\\test\\resources\\dev.properties
+                    """
                     bat """
                         mvn clean test ^
                         -Denv=${params.ENV} ^
